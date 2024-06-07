@@ -72,40 +72,6 @@ processResources {
 	}
 }
 
-sourceSets {
-	testmod {
-		compileClasspath += main.compileClasspath
-		compileClasspath += main.output
-		runtimeClasspath += main.runtimeClasspath
-		runtimeClasspath += main.output
-	}
-}
-
-loom {
-	runs {
-		testmodClient {
-			client()
-			name "Testmod Client"
-			source sourceSets.testmod
-			runDir "run/test"
-		}
-		testmodServer {
-			server()
-			name "Testmod Server"
-			source sourceSets.testmod
-			runDir "run/test_server"
-		}
-		gametest {
-			server()
-			name "Test"
-			source sourceSets.testmod
-			vmArg "-Dfabric-api.gametest"
-			vmArg "-Dfabric-api.gametest.report-file=${project.buildDir}/junit.xml"
-			runDir "run/gametest_server"
-		}
-	}
-}
-
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = Integer.parseInt(sourceCompatibility)
 }
