@@ -1,0 +1,37 @@
+{
+  "item.up_and_away.stretchy_sheet": "Stretchy Sheet",
+  "item.up_and_away.spark_in_a_bottle": "Spark in a Bottle",
+
+  "item.up_and_away.deflated_balloon": "Deflated Balloon",
+  "item.up_and_away.deflated_heart_balloon": "Deflated Heart Balloon",
+  "item.up_and_away.deflated_long_balloon": "Deflated Long Balloon",
+  "item.up_and_away.deflated_cube_balloon": "Deflated Cube Balloon",
+
+  "item.up_and_away.balloon": "Balloon",
+  "item.up_and_away.heart_balloon": "Heart Balloon",
+  "item.up_and_away.long_balloon": "Long Balloon",
+  "item.up_and_away.cube_balloon": "Cube Balloon",
+  "item.up_and_away.dog_balloon_animal": "Balloon Animal Dog",
+  "entity.up_and_away.balloon": "Balloon",
+  "entity.up_and_away.heart_balloon": "Heart Balloon",
+  "entity.up_and_away.long_balloon": "Long Balloon",
+  "entity.up_and_away.cube_balloon": "Cube Balloon",
+  "entity.up_and_away.dog_balloon_animal": "Balloon Animal Dog",
+
+  "item.up_and_away.floaty_balloon": "Floaty Balloon",
+  "item.up_and_away.floaty_heart_balloon": "Floaty Heart Balloon",
+  "item.up_and_away.floaty_long_balloon": "Floaty Long Balloon",
+  "item.up_and_away.floaty_cube_balloon": "Floaty Cube Balloon",
+  "item.up_and_away.floaty_dog_balloon_animal": "Floaty Balloon Animal Dog",
+  "entity.up_and_away.floaty_balloon": "Floaty Balloon",
+  "entity.up_and_away.floaty_heart_balloon": "Floaty Heart Balloon",
+  "entity.up_and_away.floaty_long_balloon": "Floaty Long Balloon",
+  "entity.up_and_away.floaty_cube_balloon": "Floaty Cube Balloon",
+  "entity.up_and_away.floaty_dog_balloon_animal": "Floaty Balloon Animal Dog",
+
+  "item.up_and_away.water_balloon": "Water Balloon",
+  "entity.up_and_away.water_balloon": "Water Balloon",
+
+  "item.up_and_away.balloon_cart": "Balloon Cart",
+  "entity.up_and_away.balloon_cart": "Balloon Cart"
+}

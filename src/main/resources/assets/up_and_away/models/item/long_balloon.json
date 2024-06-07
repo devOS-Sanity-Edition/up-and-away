@@ -1,0 +1,93 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"texture_size": [128, 128],
+	"textures": {
+		"0": "up_and_away:entity/balloon/balloon"
+	},
+	"elements": [
+		{
+			"from": [6.5, 2, 6.5],
+			"to": [9.5, 32, 9.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9.5, 18, 8.5]},
+			"faces": {
+				"north": {"uv": [14.875, 0.375, 15.25, 4.125], "texture": "#0", "tintindex": 0},
+				"east": {"uv": [14.5, 0.375, 14.875, 4.125], "texture": "#0", "tintindex": 0},
+				"south": {"uv": [15.625, 0.375, 16, 4.125], "texture": "#0", "tintindex": 0},
+				"west": {"uv": [15.25, 0.375, 15.625, 4.125], "texture": "#0", "tintindex": 0},
+				"up": {"uv": [15.25, 0.375, 14.875, 0], "texture": "#0", "tintindex": 0},
+				"down": {"uv": [15.625, 0, 15.25, 0.375], "texture": "#0", "tintindex": 0}
+			}
+		},
+		{
+			"from": [6.5, 0, 8],
+			"to": [9.5, 2, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [14, 0, 14.375, 0.25], "texture": "#0", "tintindex": 0},
+				"south": {"uv": [14, 0, 14.375, 0.25], "texture": "#0", "tintindex": 0}
+			}
+		},
+		{
+			"from": [6.5, 0, 8],
+			"to": [9.5, 2, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [14.375, 0, 14, 0.25], "texture": "#0", "tintindex": 0},
+				"south": {"uv": [14.375, 0, 14, 0.25], "texture": "#0", "tintindex": 0}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [23, 45, 0],
+			"translation": [0, 2.5, 2],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [23, 45, 0],
+			"translation": [0, 2.5, 2],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [-5.75, 37.01, -1.13],
+			"translation": [0, 3.25, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-5.75, 37.01, -1.13],
+			"translation": [0, 3.25, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3.5, 0],
+			"scale": [0.4082, 0.4082, 0.4082]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0, -3.75, 0],
+			"scale": [0.51563, 0.51563, 0.51563]
+		},
+		"head": {
+			"rotation": [-87, 0, 0],
+			"translation": [0, -1.25, -11.75]
+		},
+		"fixed": {
+			"translation": [0, -4.75, 0],
+			"scale": [0.61328, 0.61328, 0.61328]
+		}
+	},
+	"groups": [
+		{
+			"name": "balloon",
+			"origin": [9.5, 18, 8.5],
+			"color": 0,
+			"children": [0]
+		},
+		{
+			"name": "tie",
+			"origin": [8, 1, 8],
+			"color": 0,
+			"children": [1, 2]
+		}
+	]
+}

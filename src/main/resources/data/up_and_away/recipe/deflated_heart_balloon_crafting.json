@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "pattern": [
+        " X ",
+        " XX",
+        "Y  "
+    ],
+    "key": {
+        "X": {
+            "item": "up_and_away:stretchy_sheet"
+        },
+        "Y": {
+            "item": "minecraft:string"
+        }
+    },
+    "result": {
+        "item": "up_and_away:deflated_heart_balloon",
+        "count": 1
+    }
+}

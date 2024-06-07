@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "up_and_away:deflated_balloon",
+      "up_and_away:deflated_heart_balloon",
+      "up_and_away:deflated_cube_balloon",
+      "up_and_away:deflated_long_balloon"
+    ]
+  },
+  "criteria": {
+    "has_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+		"minecraft:string",
+                "up_and_away:stretchy_sheet"
+	    ]
+          }
+        ]
+      }
+    }
+  }
+}

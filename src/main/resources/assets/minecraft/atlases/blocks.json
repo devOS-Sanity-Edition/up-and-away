@@ -1,0 +1,8 @@
+{
+  "sources": [
+    {
+      "type": "single",
+      "resource": "up_and_away:entity/balloon/balloon"
+    }
+  ]
+}
