@@ -2,10 +2,19 @@
   "values": [
     "minecraft:cactus",
     "minecraft:sweet_berry_bush",
+    "minecraft:dead_bush",
     "minecraft:fire",
+    "minecraft:campfire",
     "minecraft:soul_fire",
+    "minecraft:soul_campfire",
     "minecraft:pointed_dripstone",
+    "minecraft:small_amethyst_bud",
+    "minecraft:medium_amethyst_bud",
+    "minecraft:large_amethyst_bud",
     "minecraft:amethyst_cluster",
+    "minecraft:amethyst_block",
+    "minecraft:budding_amethyst",
+    "minecraft:calibrated_sculk_sensor",
     "minecraft:white_concrete",
     "minecraft:orange_concrete",
     "minecraft:magenta_concrete",
@@ -26,6 +35,7 @@
     "minecraft:lava_cauldron",
     "minecraft:potted_cactus",
     "minecraft:rose_bush",
+    "minecraft:magma_block",
     "minecraft:wither_rose"
   ]
 }
