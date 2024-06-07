@@ -1,7 +1,7 @@
 package one.devos.nautical.up_and_away.content;
 
 import one.devos.nautical.up_and_away.UpAndAway;
-import one.devos.nautical.up_and_away.entity.Balloon;
+import one.devos.nautical.up_and_away.content.entity.Balloon;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;

@@ -1,4 +1,4 @@
-package one.devos.nautical.up_and_away.entity;
+package one.devos.nautical.up_and_away.content.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
