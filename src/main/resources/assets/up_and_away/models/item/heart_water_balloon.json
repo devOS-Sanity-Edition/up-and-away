@@ -1,0 +1,140 @@
+{
+	"credit": "Made by Cart3r using Blockbench.",
+	"textures": {
+		"0": "up_and_away:entity/balloon/balloon",
+		"1": "minecraft:block/water_still",
+		"particle": "up_and_away:entity/balloon/balloon"
+	},
+	"elements": [
+		{
+			"from": [8, 15.5, 6.5],
+			"to": [8, 17.5, 9.5],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 16.5, 8]},
+			"faces": {
+				"east": {"uv": [8, 0.25, 8.375, 0], "texture": "#0", "tintindex": 0},
+				"west": {"uv": [8, 0.25, 8.375, 0], "texture": "#0", "tintindex": 0}
+			}
+		},
+		{
+			"from": [8, 15.5, 6.5],
+			"to": [8, 17.5, 9.5],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 16.5, 8]},
+			"faces": {
+				"east": {"uv": [8, 0.25, 8.375, 0], "texture": "#0", "tintindex": 0},
+				"west": {"uv": [8, 0.25, 8.375, 0], "texture": "#0", "tintindex": 0}
+			}
+		},
+		{
+			"from": [8, 8, 4],
+			"to": [23, 16, 12],
+			"rotation": {"angle": -45, "axis": "z", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [9.004, 1.996, 10.871, 1.004], "texture": "#0", "tintindex": 0},
+				"east": {"uv": [8.004, 1.996, 8.996, 1.004], "texture": "#0", "tintindex": 0},
+				"south": {"uv": [11.879, 1.996, 13.746, 1.004], "texture": "#0", "tintindex": 0},
+				"west": {"uv": [10.879, 1.996, 11.871, 1.004], "texture": "#0", "tintindex": 0},
+				"up": {"uv": [12.746, 0.996, 10.879, 0.004], "texture": "#0", "tintindex": 0},
+				"down": {"uv": [10.871, 0.004, 9.004, 0.996], "texture": "#0", "tintindex": 0}
+			}
+		},
+		{
+			"from": [8, 1, 4],
+			"to": [16, 8, 12],
+			"rotation": {"angle": -45, "axis": "z", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [9.004, 3.996, 9.996, 3.129], "texture": "#0", "tintindex": 0},
+				"east": {"uv": [8.004, 3.996, 8.996, 3.129], "texture": "#0", "tintindex": 0},
+				"south": {"uv": [11.004, 3.996, 11.996, 3.129], "texture": "#0", "tintindex": 0},
+				"west": {"uv": [10.004, 3.996, 10.996, 3.129], "texture": "#0", "tintindex": 0},
+				"up": {"uv": [10.996, 3.121, 10.004, 2.129], "texture": "#0", "tintindex": 0},
+				"down": {"uv": [9.996, 2.129, 9.004, 3.121], "texture": "#0", "tintindex": 0}
+			}
+		},
+		{
+			"from": [8.1, 8.1, 4.1],
+			"to": [22.9, 15.9, 11.9],
+			"rotation": {"angle": -45, "axis": "z", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [0, 8, 15, 0], "texture": "#1", "tintindex": 1},
+				"east": {"uv": [0, 8, 8, 0], "texture": "#1", "tintindex": 1},
+				"south": {"uv": [0, 8, 15, 0], "texture": "#1", "tintindex": 1},
+				"west": {"uv": [0, 8, 8, 0], "texture": "#1", "tintindex": 1},
+				"up": {"uv": [0, 8, 15, 0], "texture": "#1", "tintindex": 1},
+				"down": {"uv": [0, 8, 15, 0], "texture": "#1", "tintindex": 1}
+			}
+		},
+		{
+			"from": [6.94853, 0.1201, 4.1],
+			"to": [14.74853, 6.9201, 11.9],
+			"rotation": {"angle": -45, "axis": "z", "origin": [8.84853, 14.0201, 8]},
+			"faces": {
+				"north": {"uv": [0, 6.992, 7.867, 0], "texture": "#1", "tintindex": 1},
+				"east": {"uv": [0, 7, 8, 0], "texture": "#1", "tintindex": 1},
+				"south": {"uv": [0, 7, 8, 0], "texture": "#1", "tintindex": 1},
+				"west": {"uv": [0, 7, 8, 0], "texture": "#1", "tintindex": 1},
+				"down": {"uv": [0, 8, 8, 0], "texture": "#1", "tintindex": 1}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [6.4, 20.14, 3.36],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [6.4, 20.14, 3.36],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [-180, 57, -180],
+			"translation": [0, 2.75, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-180, 57, -180],
+			"translation": [0, 2.75, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3.5, 0],
+			"scale": [0.39844, 0.39844, 0.39844]
+		},
+		"gui": {
+			"rotation": [-150.36, -27.97, -178.56],
+			"translation": [0, -0.25, 0],
+			"scale": [0.6875, 0.6875, 0.6875]
+		},
+		"head": {
+			"translation": [0, 13.5, 0]
+		},
+		"fixed": {
+			"translation": [0, 0.25, 0],
+			"scale": [0.81836, 0.81836, 0.81836]
+		}
+	},
+	"groups": [
+		{
+			"name": "tie",
+			"origin": [8, 1.5, 8.5],
+			"color": 0,
+			"children": [0, 1]
+		},
+		{
+			"name": "balloon",
+			"origin": [8, 2, 8],
+			"color": 0,
+			"children": [
+				2,
+				3,
+				{
+					"name": "water",
+					"origin": [8, 16, 8],
+					"color": 0,
+					"children": [4, 5]
+				}
+			]
+		}
+	]
+}

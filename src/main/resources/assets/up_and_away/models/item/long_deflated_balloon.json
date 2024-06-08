@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "up_and_away:item/deflated_cube_balloon"
+    "layer0": "up_and_away:item/long_deflated_balloon"
   }
 }

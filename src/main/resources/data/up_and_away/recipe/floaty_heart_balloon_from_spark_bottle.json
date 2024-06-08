@@ -3,14 +3,14 @@
     "category": "equipment",
     "ingredients": [
         {
-            "item": "up_and_away:deflated_heart_balloon"
+            "item": "up_and_away:heart_deflated_balloon"
         },
         {
             "item": "up_and_away:spark_in_a_bottle"
         }
     ],
     "result": {
-        "item": "up_and_away:floaty_heart_balloon",
+        "item": "up_and_away:heart_floaty_balloon",
         "count": 1
     },
   "group": "floaty_heart_balloon"

@@ -1,19 +1,23 @@
 {
   "replace": false,
   "values": [
-    "up_and_away:deflated_balloon",
-    "up_and_away:deflated_heart_balloon",
-    "up_and_away:deflated_long_balloon",
-    "up_and_away:deflated_cube_balloon",
-    "up_and_away:balloon",
-    "up_and_away:heart_balloon",
-    "up_and_away:long_balloon",
-    "up_and_away:cube_balloon",
-    "up_and_away:dog_animal_balloon",
-    "up_and_away:floaty_balloon",
-    "up_and_away:floaty_heart_balloon",
-    "up_and_away:floaty_long_balloon",
-    "up_and_away:floaty_cube_balloon",
-    "up_and_away:floaty_dog_animal_balloon"
+    "up_and_away:round_deflated_balloon",
+    "up_and_away:heart_deflated_balloon",
+    "up_and_away:long_deflated_balloon",
+    "up_and_away:cube_deflated_balloon",
+    "up_and_away:round_air_balloon",
+    "up_and_away:heart_air_balloon",
+    "up_and_away:long_air_balloon",
+    "up_and_away:cube_air_balloon",
+    "up_and_away:dog_air_balloon",
+    "up_and_away:round_floaty_balloon",
+    "up_and_away:heart_floaty_balloon",
+    "up_and_away:long_floaty_balloon",
+    "up_and_away:cube_floaty_balloon",
+    "up_and_away:dog_floaty_balloon",
+    "up_and_away:round_water_balloon",
+    "up_and_away:heart_water_balloon",
+    "up_and_away:long_water_balloon",
+    "up_and_away:cube_water_balloon"
   ]
 }
