@@ -4,6 +4,10 @@ import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.resources.ResourceLocation;
 
+import one.devos.nautical.up_and_away.content.UpAndAwayEntities;
+
+import one.devos.nautical.up_and_away.content.UpAndAwayItems;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +17,8 @@ public class UpAndAway implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		UpAndAwayItems.init();
+		UpAndAwayEntities.init();
 	}
 
 	public static ResourceLocation id(String path) {

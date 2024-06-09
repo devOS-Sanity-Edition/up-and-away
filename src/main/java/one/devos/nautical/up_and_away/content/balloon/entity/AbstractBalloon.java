@@ -8,14 +8,20 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 
 public abstract class AbstractBalloon extends Entity {
 	public static final EntityDataAccessor<Integer> SHAPE = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.INT);
 
 	public static final String SHAPE_KEY = "shape";
+	public static final String COLOR_KEY = "color";
 
-	protected BalloonShape shape;
+	public static final int DEFAULT_COLOR = 0xFFFFFFFF;
+
+	private BalloonShape shape;
+	private int color;
 
 	protected AbstractBalloon(EntityType<?> entityType, Level level) {
 		super(entityType, level);
@@ -23,7 +29,8 @@ public abstract class AbstractBalloon extends Entity {
 
 	@Override
 	protected void defineSynchedData(Builder builder) {
-		builder.define(SHAPE, BalloonShape.ROUND.ordinal());
+		builder.define(SHAPE, (this.shape = BalloonShape.DEFAULT).ordinal());
+		builder.define(COLOR, this.color = DEFAULT_COLOR);
 	}
 
 	@Override
@@ -32,20 +39,55 @@ public abstract class AbstractBalloon extends Entity {
 		if (accessor == SHAPE) {
 			int ordinal = this.entityData.get(SHAPE);
 			this.shape = BalloonShape.ofOrdinal(ordinal);
+		} else if (accessor == COLOR) {
+			this.color = this.entityData.get(COLOR);
 		}
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag nbt) {
 		this.entityData.set(SHAPE, BalloonShape.ofName(nbt.getString(SHAPE_KEY)).ordinal());
+		this.entityData.set(COLOR, nbt.contains(COLOR_KEY, CompoundTag.TAG_INT) ? nbt.getInt(COLOR_KEY) : DEFAULT_COLOR);
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag nbt) {
 		nbt.putString(SHAPE_KEY, this.shape.name);
+		nbt.putInt(COLOR_KEY, this.color);
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		this.applyGravity();
+		this.applyAirDrag();
+		this.move(MoverType.SELF, this.getDeltaMovement());
+	}
+
+	private void applyAirDrag() {
+		this.setDeltaMovement(this.getDeltaMovement().scale(0.91));
+	}
+
+	@Override
+	public boolean canCollideWith(Entity entity) {
+		return entity instanceof AbstractBalloon;
+	}
+
+	@Override
+	public boolean isPushable() {
+		return true;
+	}
+
+	@Override
+	protected MovementEmission getMovementEmission() {
+		return MovementEmission.EVENTS;
 	}
 
 	public BalloonShape shape() {
 		return this.shape;
+	}
+
+	public int color() {
+		return this.color;
 	}
 }

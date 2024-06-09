@@ -32,4 +32,7 @@ public class UpAndAwayEntities {
 	private static <T extends Entity> EntityType<T> register(String name, EntityType<T> type) {
 		return Registry.register(BuiltInRegistries.ENTITY_TYPE, UpAndAway.id(name), type);
 	}
+
+	public static void init() {
+	}
 }

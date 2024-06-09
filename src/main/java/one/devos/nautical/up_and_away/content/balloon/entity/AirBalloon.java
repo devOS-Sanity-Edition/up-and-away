@@ -7,4 +7,9 @@ public class AirBalloon extends AbstractBalloon {
 	public AirBalloon(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 	}
+
+	@Override
+	protected double getDefaultGravity() {
+		return 0.01;
+	}
 }

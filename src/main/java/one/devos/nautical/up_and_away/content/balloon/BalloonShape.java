@@ -8,13 +8,11 @@ import com.google.common.collect.EnumHashBiMap;
 import net.minecraft.Util;
 
 public enum BalloonShape {
-	ROUND,
-	LONG,
+	CUBE,
+	DOG,
 	HEART,
-	ANIMAL,
-	CUBE;
-
-	public final String name = this.name().toLowerCase(Locale.ROOT);
+	LONG,
+	ROUND;
 
 	public static final BiMap<String, BalloonShape> BY_NAME = Util.make(() -> {
 		EnumHashBiMap<BalloonShape, String> map = EnumHashBiMap.create(BalloonShape.class);
@@ -23,6 +21,15 @@ public enum BalloonShape {
 		}
 		return map.inverse();
 	});
+
+	public static final BalloonShape DEFAULT = ROUND;
+
+	public final String name = this.name().toLowerCase(Locale.ROOT);
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
 
 	public static BalloonShape ofOrdinal(int ordinal) {
 		if (ordinal < 0)

@@ -16,6 +16,9 @@
   "entrypoints": {
     "main": [
       "one.devos.nautical.up_and_away.UpAndAway"
+    ],
+    "client": [
+      "one.devos.nautical.up_and_away.UpAndAwayClient"
     ]
   },
   "mixins": [

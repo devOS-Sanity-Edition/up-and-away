@@ -7,4 +7,9 @@ public class WaterBalloon extends AbstractBalloon {
 	public WaterBalloon(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 	}
+
+	@Override
+	protected double getDefaultGravity() {
+		return 0.08; // attribute default
+	}
 }
