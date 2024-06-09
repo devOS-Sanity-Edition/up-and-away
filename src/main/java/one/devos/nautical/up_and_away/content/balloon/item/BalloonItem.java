@@ -4,7 +4,7 @@ import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import net.minecraft.world.item.Item;
 
 public class BalloonItem extends Item {
-	private final BalloonShape shape;
+	public final BalloonShape shape;
 
 	public BalloonItem(BalloonShape shape, Properties properties) {
 		super(properties);

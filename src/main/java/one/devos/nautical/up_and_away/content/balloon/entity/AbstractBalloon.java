@@ -25,6 +25,7 @@ public abstract class AbstractBalloon extends Entity {
 
 	protected AbstractBalloon(EntityType<?> entityType, Level level) {
 		super(entityType, level);
+		this.blocksBuilding = true;
 	}
 
 	@Override
@@ -75,6 +76,11 @@ public abstract class AbstractBalloon extends Entity {
 
 	@Override
 	public boolean isPushable() {
+		return true;
+	}
+
+	@Override
+	public boolean isPickable() {
 		return true;
 	}
 
