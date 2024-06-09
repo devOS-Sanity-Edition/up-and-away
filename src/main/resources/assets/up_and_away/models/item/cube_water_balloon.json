@@ -2,7 +2,7 @@
 	"credit": "Made by Cart3r using Blockbench.",
 	"textures": {
 		"0": "up_and_away:entity/balloon/balloon",
-		"1": "minecraft:block/water_still",
+		"1": "block/water_still",
 		"particle": "up_and_away:entity/balloon/balloon"
 	},
 	"elements": [
@@ -25,9 +25,9 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
 			"faces": {
 				"north": {"uv": [1, 15, 15, 2], "texture": "#1", "tintindex": 1},
-				"east": {"uv": [1, 15, 15, 1], "texture": "#1", "tintindex": 1},
-				"south": {"uv": [1, 15, 15, 1], "texture": "#1", "tintindex": 1},
-				"west": {"uv": [1, 15, 15, 1], "texture": "#1", "tintindex": 1},
+				"east": {"uv": [1, 15, 15, 2], "texture": "#1", "tintindex": 1},
+				"south": {"uv": [1, 15, 15, 2], "texture": "#1", "tintindex": 1},
+				"west": {"uv": [1, 15, 15, 2], "texture": "#1", "tintindex": 1},
 				"up": {"uv": [15, 15, 1, 1], "texture": "#1", "tintindex": 1},
 				"down": {"uv": [15, 1, 1, 15], "texture": "#1", "tintindex": 1}
 			}
