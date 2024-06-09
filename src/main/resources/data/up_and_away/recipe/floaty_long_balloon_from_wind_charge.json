@@ -10,7 +10,7 @@
         }
     ],
     "result": {
-        "item": "up_and_away:long_floaty_balloon",
+        "id": "up_and_away:long_floaty_balloon",
         "count": 1
     },
   "group": "floaty_long_balloon"
