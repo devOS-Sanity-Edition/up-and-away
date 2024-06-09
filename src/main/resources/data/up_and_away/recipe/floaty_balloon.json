@@ -6,7 +6,7 @@
             "item": "up_and_away:round_deflated_balloon"
         },
         {
-            "item": "up_and_away:spark_in_a_bottle"
+            "tag": "up_and_away:floaty_balloon_materials"
         }
     ],
     "result": {

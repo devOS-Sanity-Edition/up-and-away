@@ -6,7 +6,7 @@
             "item": "up_and_away:long_deflated_balloon"
         },
         {
-            "item": "minecraft:wind_charge"
+            "tag": "up_and_away:floaty_balloon_materials"
         }
     ],
     "result": {

@@ -2,14 +2,10 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "up_and_away:floaty_balloon_from_wind_charge",
-      "up_and_away:floaty_heart_balloon_from_wind_charge",
-      "up_and_away:floaty_cube_balloon_from_wind_charge",
-      "up_and_away:floaty_long_balloon_from_wind_charge",
-      "up_and_away:floaty_balloon_from_spark_bottle",
-      "up_and_away:floaty_heart_balloon_spark_bottle",
-      "up_and_away:floaty_cube_balloon_spark_bottle",
-      "up_and_away:floaty_long_balloon_spark_bottle"
+      "up_and_away:floaty_balloon",
+      "up_and_away:floaty_heart_balloon",
+      "up_and_away:floaty_cube_balloon",
+      "up_and_away:floaty_long_balloon"
     ]
   },
   "criteria": {
