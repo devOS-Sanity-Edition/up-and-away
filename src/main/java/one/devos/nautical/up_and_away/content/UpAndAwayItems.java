@@ -28,10 +28,10 @@ import net.minecraft.world.item.component.DyedItemColor;
 
 public class UpAndAwayItems {
 	public static final Map<BalloonShape, Item>
-			DEFLATED_BALLOONS = balloons("%s_deflated_balloon", shape -> shape != BalloonShape.DOG, DeflatedBalloonItem::new),
-			AIR_BALLOONS = balloons("%s_air_balloon", shape -> true, AirBalloonItem::new),
-			FLOATY_BALLOONS = balloons("%s_floaty_balloon", shape -> true, FloatyBalloonItem::new),
-			WATER_BALLOONS = balloons("%s_water_balloon", shape -> true, WaterBalloonItem::new);
+			DEFLATED_BALLOONS = balloons("%s_deflated_balloon", UpAndAwayItems::noAnimals, DeflatedBalloonItem::new),
+			AIR_BALLOONS = balloons("%s_air_balloon", UpAndAwayItems::all, AirBalloonItem::new),
+			FLOATY_BALLOONS = balloons("%s_floaty_balloon", UpAndAwayItems::all, FloatyBalloonItem::new),
+			WATER_BALLOONS = balloons("%s_water_balloon", UpAndAwayItems::noAnimals, WaterBalloonItem::new);
 
 	public static final CreativeModeTab TAB = Registry.register(
 			BuiltInRegistries.CREATIVE_MODE_TAB,
@@ -58,6 +58,14 @@ public class UpAndAwayItems {
 			}
 		}
 		return map;
+	}
+
+	private static boolean all(BalloonShape shape) {
+		return true;
+	}
+
+	private static boolean noAnimals(BalloonShape shape) {
+		return shape != BalloonShape.DOG;
 	}
 
 	private static Item register(String name, Item item) {
