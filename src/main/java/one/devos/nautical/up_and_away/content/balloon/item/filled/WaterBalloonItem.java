@@ -15,7 +15,7 @@ public class WaterBalloonItem extends FilledBalloonItem {
 
 	@Override
 	public AbstractBalloon createEntity(Level level, ItemStack stack) {
-		return new WaterBalloon(UpAndAwayEntities.WATER_BALLOON, level);
+		return new WaterBalloon(UpAndAwayEntities.WATER_BALLOON, level, stack);
 	}
 
 	@Override

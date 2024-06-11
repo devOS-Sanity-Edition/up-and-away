@@ -33,16 +33,16 @@ public enum BalloonShape {
 
 	public static BalloonShape ofOrdinal(int ordinal) {
 		if (ordinal < 0)
-			return ROUND;
+			return DEFAULT;
 
 		BalloonShape[] all = values();
 		if (ordinal > all.length)
-			return ROUND;
+			return DEFAULT;
 
 		return all[ordinal];
 	}
 
 	public static BalloonShape ofName(String name) {
-		return BY_NAME.getOrDefault(name, ROUND);
+		return BY_NAME.getOrDefault(name, DEFAULT);
 	}
 }
