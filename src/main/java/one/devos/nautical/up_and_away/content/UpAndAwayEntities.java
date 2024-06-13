@@ -2,6 +2,7 @@ package one.devos.nautical.up_and_away.content;
 
 import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.entity.AirBalloon;
+import one.devos.nautical.up_and_away.content.balloon.entity.BalloonCart;
 import one.devos.nautical.up_and_away.content.balloon.entity.FloatyBalloon;
 import one.devos.nautical.up_and_away.content.balloon.entity.WaterBalloon;
 import net.minecraft.core.Registry;
@@ -26,6 +27,11 @@ public class UpAndAwayEntities {
 	public static final EntityType<WaterBalloon> WATER_BALLOON = register(
 			"water_balloon", EntityType.Builder.of(WaterBalloon::createClient, MobCategory.MISC)
 					.sized(1, 1)
+					.build()
+	);
+
+	public static final EntityType<BalloonCart> BALLOON_CART = register(
+			"balloon_cart", EntityType.Builder.of(BalloonCart::new, MobCategory.MISC)
 					.build()
 	);
 
