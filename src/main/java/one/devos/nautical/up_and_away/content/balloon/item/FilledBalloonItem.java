@@ -2,6 +2,10 @@ package one.devos.nautical.up_and_away.content.balloon.item;
 
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.AbstractBalloon;
+import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
+
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +18,7 @@ public abstract class FilledBalloonItem extends BalloonItem {
 		super(shape, properties);
 	}
 
-	public abstract AbstractBalloon createEntity(Level level, ItemStack stack);
+	public abstract AbstractBalloon createEntity(Level level, ItemStack stack, @Nullable BalloonAttachment attachment);
 
 	public float throwingForce() {
 		return 0.2f;
@@ -24,7 +28,7 @@ public abstract class FilledBalloonItem extends BalloonItem {
 	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
 		ItemStack stack = player.getItemInHand(hand);
 		if (!level.isClientSide) {
-			AbstractBalloon balloon = this.createEntity(level, stack);
+			AbstractBalloon balloon = this.createEntity(level, stack, null);
 			balloon.setPos(player.getEyePosition());
 			Vec3 lookVec = player.getLookAngle().normalize();
 			balloon.setDeltaMovement(lookVec.scale(this.throwingForce()));

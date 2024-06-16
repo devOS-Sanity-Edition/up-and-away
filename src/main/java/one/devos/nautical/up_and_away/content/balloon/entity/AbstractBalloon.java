@@ -4,6 +4,7 @@ import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 
+import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachmentHolder;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BlockFaceBalloonAttachment;
 
 import org.jetbrains.annotations.Nullable;
@@ -29,17 +30,18 @@ public abstract class AbstractBalloon extends Entity {
 
 	private static final ItemStack itemFallback = new ItemStack(UpAndAwayItems.FLOATY_BALLOONS.get(BalloonShape.ROUND));
 
-	private BalloonAttachment attachment;
+	private BalloonAttachmentHolder attachmentHolder;
 
 	protected AbstractBalloon(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.blocksBuilding = true;
-		this.attachment = new BlockFaceBalloonAttachment(level, BlockPos.ZERO.above(60), Direction.UP, 3);
+		this.attachmentHolder = BalloonAttachmentHolder.EMPTY;
 	}
 
-	protected AbstractBalloon(EntityType<?> type, Level level, ItemStack stack) {
+	protected AbstractBalloon(EntityType<?> type, Level level, ItemStack stack, @Nullable BalloonAttachment attachment) {
 		this(type, level);
 		this.entityData.set(ITEM, stack.copy());
+		this.attachmentHolder = new BalloonAttachmentHolder(attachment);
 	}
 
 	@Override
@@ -73,20 +75,21 @@ public abstract class AbstractBalloon extends Entity {
 	}
 
 	private void handleAttachment() {
-		if (this.attachment == null)
+		BalloonAttachment attachment = this.attachment();
+		if (attachment == null)
 			return;
 
-		if (!this.attachment.validate()) {
-			this.attachment = null;
+		if (!attachment.validate()) {
+			this.attachmentHolder = BalloonAttachmentHolder.EMPTY;
 			return;
 		}
 
-		if (this.attachment.isTooFar(this.position())) {
-			if (this.attachment.shouldTeleport(this.position())) {
-				Vec3 pos = this.attachment.getPos();
+		if (attachment.isTooFar(this.position())) {
+			if (attachment.shouldTeleport(this.position())) {
+				Vec3 pos = attachment.getPos();
 				this.teleportTo(pos.x, pos.y, pos.z);
 			} else {
-				Vec3 to = this.position().vectorTo(this.attachment.getPos());
+				Vec3 to = this.position().vectorTo(attachment.getPos());
 				Vec3 vel = to.scale(0.2);
 				this.setDeltaMovement(vel);
 			}
@@ -96,8 +99,9 @@ public abstract class AbstractBalloon extends Entity {
 	@Override
 	public AABB getBoundingBoxForCulling() {
 		AABB bounds = super.getBoundingBoxForCulling();
-		if (this.attachment != null) {
-			Vec3 relativeOffset = this.position().vectorTo(this.attachment.getPos());
+		BalloonAttachment attachment = this.attachment();
+		if (attachment != null) {
+			Vec3 relativeOffset = this.position().vectorTo(attachment.getPos());
 			bounds = bounds.expandTowards(relativeOffset);
 		}
 		return bounds;
@@ -134,6 +138,6 @@ public abstract class AbstractBalloon extends Entity {
 
 	@Nullable
 	public BalloonAttachment attachment() {
-		return this.attachment;
+		return this.attachmentHolder.get(this.level());
 	}
 }

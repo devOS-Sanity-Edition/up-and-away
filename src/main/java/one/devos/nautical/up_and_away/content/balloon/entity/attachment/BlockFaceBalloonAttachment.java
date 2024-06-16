@@ -2,6 +2,7 @@ package one.devos.nautical.up_and_away.content.balloon.entity.attachment;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -44,5 +45,9 @@ public class BlockFaceBalloonAttachment implements BalloonAttachment {
 	@Override
 	public double getStringLength() {
 		return this.stringLength;
+	}
+
+	public static BalloonAttachment fromNbt(CompoundTag nbt, Level level) {
+		return null;
 	}
 }

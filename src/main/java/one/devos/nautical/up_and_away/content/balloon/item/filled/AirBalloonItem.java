@@ -4,7 +4,11 @@ import one.devos.nautical.up_and_away.content.UpAndAwayEntities;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.AbstractBalloon;
 import one.devos.nautical.up_and_away.content.balloon.entity.AirBalloon;
+import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 import one.devos.nautical.up_and_away.content.balloon.item.FilledBalloonItem;
+
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -14,7 +18,7 @@ public class AirBalloonItem extends FilledBalloonItem {
 	}
 
 	@Override
-	public AbstractBalloon createEntity(Level level, ItemStack stack) {
-		return new AirBalloon(UpAndAwayEntities.AIR_BALLOON, level, stack);
+	public AbstractBalloon createEntity(Level level, ItemStack stack, @Nullable BalloonAttachment attachment) {
+		return new AirBalloon(UpAndAwayEntities.AIR_BALLOON, level, stack, attachment);
 	}
 }
