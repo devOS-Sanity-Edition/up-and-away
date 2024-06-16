@@ -2,7 +2,7 @@
   "sources": [
     {
       "type": "single",
-      "resource": "up_and_away:entity/balloon/balloon"
+      "resource": "up_and_away:entity/balloon_cart/balloon_cart"
     }
   ]
 }

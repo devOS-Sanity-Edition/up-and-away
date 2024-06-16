@@ -31,5 +31,28 @@
   "entity.up_and_away.water_balloon": "Water Balloon",
 
   "item.up_and_away.balloon_cart": "Balloon Cart",
-  "entity.up_and_away.balloon_cart": "Balloon Cart"
+  "entity.up_and_away.balloon_cart": "Balloon Cart",
+
+  "balloon_pattern.up_and_away.stripes_horizontal": "Horizontal Stripes",
+  "balloon_pattern.up_and_away.stripes_vertical": "Vertical  Stripes",
+  "balloon_pattern.up_and_away.stripes_left_diagonal": "Left Diagonal Stripes",
+  "balloon_pattern.up_and_away.stripes_right_diagonal": "Right Diagonal Stripes",
+  "balloon_pattern.up_and_away.stripe_horizontal": "Horizontal Stripe",
+  "balloon_pattern.up_and_away.stripe_vertical": "Vertical Stripe",
+  "balloon_pattern.up_and_away.stripe_left_diagonal": "Left Diagonal Stripe",
+  "balloon_pattern.up_and_away.stripe_right_diagonal": "Right Diagonal Stripe",
+  "balloon_pattern.up_and_away.outline": "Outline",
+  "balloon_pattern.up_and_away.gradient_up": "Upward Gradient",
+  "balloon_pattern.up_and_away.gradient_down": "Downward Gradient",
+  "balloon_pattern.up_and_away.half_top": "Top Half",
+  "balloon_pattern.up_and_away.half_bottom": "Bottom Half",
+  "balloon_pattern.up_and_away.half_left": "Left Half",
+  "balloon_pattern.up_and_away.half_right": "Right Half",
+  "balloon_pattern.up_and_away.spot": "Spot",
+  "balloon_pattern.up_and_away.polka_dots": "Polka Dots",
+  "balloon_pattern.up_and_away.balloony": "Balloony",
+
+  "container.up_and_away.balloon_customization": "Balloon Customization",
+  "container.up_and_away.balloon_cart_storage": "Balloon Cart Storage",
+  "container.up_and_away.balloon_cart_tanks": "Balloon Cart Air Tanks"
 }
