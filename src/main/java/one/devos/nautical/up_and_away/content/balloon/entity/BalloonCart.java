@@ -2,6 +2,7 @@ package one.devos.nautical.up_and_away.content.balloon.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -42,7 +43,7 @@ public class BalloonCart extends Entity {
 	public InteractionResult interactAt(Player player, Vec3 hitPos, InteractionHand hand) {
 		InteractionResult result = super.interactAt(player, hitPos, hand);
 		if (!result.consumesAction()) {
-			Vec3 start = hitPos.yRot(this.getYRot());
+			Vec3 start = hitPos.yRot(this.getYRot() * Mth.DEG_TO_RAD);
 			Vec3 end = start
 					.add(player
 							.calculateViewVector(player.getXRot(), player.getYRot())
