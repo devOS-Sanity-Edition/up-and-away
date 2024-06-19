@@ -9,9 +9,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
+import one.devos.nautical.up_and_away.content.UpAndAwayItems;
+
+import org.jetbrains.annotations.Nullable;
 
 public class BalloonCart extends Entity {
 	public static final double WIDTH = 28 / 16d;
@@ -133,6 +138,12 @@ public class BalloonCart extends Entity {
 	@Override
 	public boolean isPickable() {
 		return true;
+	}
+
+	@Nullable
+	@Override
+	public ItemStack getPickResult() {
+		return UpAndAwayItems.BALLOON_CART.getDefaultInstance();
 	}
 
 	@Override
