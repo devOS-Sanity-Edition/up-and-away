@@ -21,8 +21,8 @@ import org.jetbrains.annotations.Nullable;
 public class BalloonCart extends Entity {
 	public static final double WIDTH = 28 / 16d;
 	public static final double HEIGHT = 24 / 16d;
-	public static final double LENGTH = 58 / 16d;
-	public static final double Z_OFFSET = 34 / 16d;
+	public static final double LENGTH = 56 / 16d;
+	public static final double Z_OFFSET = 22 / 16d;
 
 	private int lerpSteps;
 	private double lerpX;
