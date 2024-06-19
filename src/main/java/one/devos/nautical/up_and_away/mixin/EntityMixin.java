@@ -33,19 +33,21 @@ public abstract class EntityMixin {
 		if (attachment == null)
 			return motion;
 
-		if (this.position().distanceTo(attachment.getPos()) > attachment.getStringLength()) {
-			// current position too far, let logic in tick handle it
+		Vec3 pos = this.position();
+		if (attachment.isTooFar(pos)) {
+			// let logic in tick handle it
 			return motion;
 		}
 
-		Vec3 target = this.position().add(motion);
-		Vec3 delta = target.vectorTo(attachment.getPos());
-		if (delta.length() > attachment.getStringLength()) {
-			// next pos will be too far away
-			return Vec3.ZERO;
+		Vec3 nextPos = pos.add(motion);
+		if (!attachment.isTooFar(nextPos)) {
+			// all is well
+			return motion;
 		}
 
-		// all is well
-		return motion;
+		// next position is too far
+		Vec3 attachmentToNext = attachment.getPos().vectorTo(nextPos);
+		Vec3 atMaxLength = attachmentToNext.normalize().scale(attachment.getStringLength());
+		return pos.vectorTo(atMaxLength);
 	}
 }

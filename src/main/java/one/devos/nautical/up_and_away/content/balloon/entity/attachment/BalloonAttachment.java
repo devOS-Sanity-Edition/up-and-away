@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
@@ -26,16 +27,14 @@ public interface BalloonAttachment {
 		return 15;
 	}
 
-	default void toNbt(CompoundTag nbt) {
-
-	}
+	void toNbt(CompoundTag nbt);
 
 	// utilities
 
-	default void toNetwork(FriendlyByteBuf buf) {
+	default CompoundTag toNbt() {
 		CompoundTag nbt = new CompoundTag();
 		this.toNbt(nbt);
-		buf.writeNbt(nbt);
+		return nbt;
 	}
 
 	default boolean isTooFar(Vec3 pos) {
@@ -47,12 +46,8 @@ public interface BalloonAttachment {
 	}
 
 	static BalloonAttachment fromNbt(CompoundTag nbt, Level level) {
-		return null;
-	}
-
-	static BalloonAttachment fromNetwork(FriendlyByteBuf buf, Level level) {
-		CompoundTag nbt = buf.readNbt();
-		return fromNbt(nbt, level);
+		Type type = Type.CODEC.decode(NbtOps.INSTANCE, nbt.getCompound("type")).getOrThrow().getFirst();
+		return type.factory.apply(nbt, level);
 	}
 
 	enum Type implements StringRepresentable {

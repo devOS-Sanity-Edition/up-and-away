@@ -5,19 +5,19 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
-public class BalloonAttachmentHolder {
-	public static final BalloonAttachmentHolder EMPTY = new BalloonAttachmentHolder((BalloonAttachment) null);
+import java.util.Objects;
 
+public class BalloonAttachmentHolder {
 	private CompoundTag nbt;
 
 	private BalloonAttachment attachment;
 
-	public BalloonAttachmentHolder(BalloonAttachment attachment) {
+	public BalloonAttachmentHolder(@Nullable BalloonAttachment attachment) {
 		this.attachment = attachment;
 	}
 
 	public BalloonAttachmentHolder(CompoundTag nbt) {
-		this.nbt = nbt;
+		this.nbt = Objects.requireNonNull(nbt);
 	}
 
 	@Nullable

@@ -1,5 +1,8 @@
 package one.devos.nautical.up_and_away.content.balloon.entity;
 
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.server.level.ServerLevel;
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
@@ -27,6 +30,7 @@ import net.minecraft.world.phys.Vec3;
 public abstract class AbstractBalloon extends Entity {
 	public static final EntityDataAccessor<ItemStack> ITEM = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.ITEM_STACK);
 	public static final String ITEM_KEY = "item";
+	public static final String ATTACHMENT_KEY = "attachment";
 
 	private static final ItemStack itemFallback = new ItemStack(UpAndAwayItems.FLOATY_BALLOONS.get(BalloonShape.ROUND));
 
@@ -35,13 +39,13 @@ public abstract class AbstractBalloon extends Entity {
 	protected AbstractBalloon(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.blocksBuilding = true;
-		this.attachmentHolder = BalloonAttachmentHolder.EMPTY;
+		this.setAttachment(null);
 	}
 
 	protected AbstractBalloon(EntityType<?> type, Level level, ItemStack stack, @Nullable BalloonAttachment attachment) {
 		this(type, level);
 		this.entityData.set(ITEM, stack.copy());
-		this.attachmentHolder = new BalloonAttachmentHolder(attachment);
+		this.setAttachment(attachment);
 	}
 
 	@Override
@@ -54,11 +58,18 @@ public abstract class AbstractBalloon extends Entity {
 		ItemStack stack = ItemStack.parse(this.registryAccess(), nbt.getCompound(ITEM_KEY))
 				.orElseGet(itemFallback::copy);
 		this.entityData.set(ITEM, stack);
+		if (nbt.contains(ATTACHMENT_KEY, CompoundTag.TAG_COMPOUND)) {
+			this.attachmentHolder = new BalloonAttachmentHolder(nbt.getCompound(ATTACHMENT_KEY));
+		}
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag nbt) {
 		nbt.put(ITEM_KEY, this.entityData.get(ITEM).save(this.registryAccess()));
+		BalloonAttachment attachment = this.attachment();
+		if (attachment != null) {
+			nbt.put(ATTACHMENT_KEY, attachment.toNbt());
+		}
 	}
 
 	@Override
@@ -80,7 +91,7 @@ public abstract class AbstractBalloon extends Entity {
 			return;
 
 		if (!attachment.validate()) {
-			this.attachmentHolder = BalloonAttachmentHolder.EMPTY;
+			this.setAttachment(null);
 			return;
 		}
 
@@ -139,5 +150,14 @@ public abstract class AbstractBalloon extends Entity {
 	@Nullable
 	public BalloonAttachment attachment() {
 		return this.attachmentHolder.get(this.level());
+	}
+
+	public void setAttachment(@Nullable BalloonAttachment attachment) {
+		this.attachmentHolder = new BalloonAttachmentHolder(attachment);
+
+		if (!this.level().isClientSide) {
+			BalloonAttachmentPacket packet = new BalloonAttachmentPacket(this, attachment);
+			PlayerLookup.tracking(this).forEach(player -> ServerPlayNetworking.send(player, packet));
+		}
 	}
 }
