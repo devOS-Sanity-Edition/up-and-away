@@ -10,6 +10,7 @@ import one.devos.nautical.up_and_away.content.UpAndAwayPackets;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 import one.devos.nautical.up_and_away.framework.packet.ClientboundPacket;
 
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,10 @@ public record BalloonAttachmentPacket(int entityId, Optional<CompoundTag> nbt) i
 
 	private static final Logger logger = LoggerFactory.getLogger(BalloonAttachmentPacket.class);
 
+	public BalloonAttachmentPacket(AbstractBalloon balloon, @Nullable BalloonAttachment attachment) {
+		this(balloon.getId(), Optional.ofNullable(attachment).map(BalloonAttachment::toNbt));
+	}
+
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(Context ctx) {
@@ -41,6 +46,7 @@ public record BalloonAttachmentPacket(int entityId, Optional<CompoundTag> nbt) i
 		}
 
 		BalloonAttachment attachment = this.nbt.map(nbt -> BalloonAttachment.fromNbt(nbt, level)).orElse(null);
+		balloon.setAttachment(attachment);
 	}
 
 	@Override
