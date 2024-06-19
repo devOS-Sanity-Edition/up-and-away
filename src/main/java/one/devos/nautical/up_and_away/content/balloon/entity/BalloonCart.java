@@ -61,7 +61,6 @@ public class BalloonCart extends Entity {
 	@Override
 	public void tick() {
 		super.tick();
-		this.setYRot(45);
 		this.applyGravity();
 		this.move(MoverType.SELF, this.getDeltaMovement());
 	}
