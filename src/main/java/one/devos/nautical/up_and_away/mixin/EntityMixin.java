@@ -22,7 +22,7 @@ public abstract class EntityMixin {
 			method = "move",
 			at = @At(
 					value = "INVOKE",
-					target = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"
+					target = "Lnet/minecraft/world/entity/Entity;maybeBackOffFromEdge(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/MoverType;)Lnet/minecraft/world/phys/Vec3;"
 			)
 	)
 	private Vec3 balloonStringCollision(Vec3 motion) {
@@ -47,7 +47,7 @@ public abstract class EntityMixin {
 
 		// next position is too far
 		Vec3 attachmentToNext = attachment.getPos().vectorTo(nextPos);
-		Vec3 atMaxLength = attachmentToNext.normalize().scale(attachment.getStringLength());
-		return pos.vectorTo(atMaxLength);
+		Vec3 atMaxLength = attachmentToNext.normalize().scale(attachment.stringLength - 0.01); // a little shorter, to avoid float imprecision
+		return pos.vectorTo(attachment.getPos().add(atMaxLength));
 	}
 }

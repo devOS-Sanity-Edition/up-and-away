@@ -2,24 +2,21 @@ package one.devos.nautical.up_and_away.content.balloon.entity;
 
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.server.level.ServerLevel;
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachmentHolder;
-import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BlockFaceBalloonAttachment;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Entity.MovementEmission;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.item.ItemStack;
@@ -90,20 +87,18 @@ public abstract class AbstractBalloon extends Entity {
 		if (attachment == null)
 			return;
 
-		if (!attachment.validate()) {
+		if (!this.level().isClientSide && !attachment.validate()) {
 			this.setAttachment(null);
 			return;
 		}
 
-		if (attachment.isTooFar(this.position())) {
-			if (attachment.shouldTeleport(this.position())) {
-				Vec3 pos = attachment.getPos();
-				this.teleportTo(pos.x, pos.y, pos.z);
-			} else {
-				Vec3 to = this.position().vectorTo(attachment.getPos());
-				Vec3 vel = to.scale(0.2);
-				this.setDeltaMovement(vel);
-			}
+		if (attachment.shouldTeleport(this.position())) {
+			Vec3 pos = attachment.getPos();
+			this.teleportTo(pos.x, pos.y, pos.z);
+		} else if (attachment.isTooFar(this.position())) {
+			Vec3 to = this.position().vectorTo(attachment.getPos());
+			Vec3 vel = to.scale(0.02);
+			this.setDeltaMovement(vel);
 		}
 	}
 

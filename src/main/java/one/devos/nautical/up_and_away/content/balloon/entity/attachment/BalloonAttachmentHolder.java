@@ -7,6 +7,9 @@ import net.minecraft.world.level.Level;
 
 import java.util.Objects;
 
+/**
+ * NBT needs to be held onto and deserialized later for level and entity access.
+ */
 public class BalloonAttachmentHolder {
 	private CompoundTag nbt;
 
@@ -23,7 +26,7 @@ public class BalloonAttachmentHolder {
 	@Nullable
 	public BalloonAttachment get(Level level) {
 		if (this.attachment == null && this.nbt != null) {
-			this.attachment = BalloonAttachment.fromNbt(this.nbt, level);
+			this.attachment = BalloonAttachment.fromNbt(level, this.nbt);
 			this.nbt = null;
 		}
 

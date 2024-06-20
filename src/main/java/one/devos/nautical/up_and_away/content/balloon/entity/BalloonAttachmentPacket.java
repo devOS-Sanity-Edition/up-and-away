@@ -45,7 +45,7 @@ public record BalloonAttachmentPacket(int entityId, Optional<CompoundTag> nbt) i
 			return;
 		}
 
-		BalloonAttachment attachment = this.nbt.map(nbt -> BalloonAttachment.fromNbt(nbt, level)).orElse(null);
+		BalloonAttachment attachment = this.nbt.map(nbt -> BalloonAttachment.fromNbt(level, nbt)).orElse(null);
 		balloon.setAttachment(attachment);
 	}
 

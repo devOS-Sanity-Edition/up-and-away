@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "EntityMixin",
-    "LevelAccessor"
+    "LevelAccessor",
+    "ServerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
