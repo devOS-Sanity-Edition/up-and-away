@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
+import one.devos.nautical.up_and_away.content.balloon.item.BalloonCartItem;
 import one.devos.nautical.up_and_away.content.balloon.item.filled.AirBalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.BalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.DeflatedBalloonItem;
@@ -33,6 +34,8 @@ public class UpAndAwayItems {
 			FLOATY_BALLOONS = balloons("%s_floaty_balloon", UpAndAwayItems::all, FloatyBalloonItem::new),
 			WATER_BALLOONS = balloons("%s_water_balloon", UpAndAwayItems::noAnimals, WaterBalloonItem::new);
 
+	public static final Item BALLOON_CART = register("balloon_cart", new BalloonCartItem(new Properties()));
+
 	public static final CreativeModeTab TAB = Registry.register(
 			BuiltInRegistries.CREATIVE_MODE_TAB,
 			UpAndAway.id("tab"),
@@ -45,6 +48,7 @@ public class UpAndAwayItems {
 						Stream.of(
 								DEFLATED_BALLOONS, AIR_BALLOONS, FLOATY_BALLOONS, WATER_BALLOONS
 						).map(Map::values).flatMap(Collection::stream).forEach(output::accept);
+						output.accept(BALLOON_CART);
 					})
 					.build()
 	);

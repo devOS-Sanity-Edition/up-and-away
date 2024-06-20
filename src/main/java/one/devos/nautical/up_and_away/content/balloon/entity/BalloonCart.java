@@ -9,15 +9,26 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import one.devos.nautical.up_and_away.content.UpAndAwayItems;
+
+import org.jetbrains.annotations.Nullable;
+
 public class BalloonCart extends Entity {
 	public static final double WIDTH = 28 / 16d;
 	public static final double HEIGHT = 24 / 16d;
-	public static final double LENGTH = 58 / 16d;
-	public static final double Z_OFFSET = 34 / 16d;
+	public static final double LENGTH = 56 / 16d;
+	public static final double Z_OFFSET = 22 / 16d;
+
+	private int lerpSteps;
+	private double lerpX;
+	private double lerpY;
+	private double lerpZ;
+	private float lerpYRot;
 
 	public BalloonCart(EntityType<?> entityType, Level level) {
 		super(entityType, level);
@@ -37,6 +48,35 @@ public class BalloonCart extends Entity {
 	@Override
 	protected void addAdditionalSaveData(CompoundTag compoundTag) {
 
+	}
+
+	@Override
+	public double lerpTargetX() {
+		return this.lerpSteps > 0 ? this.lerpX : this.getX();
+	}
+
+	@Override
+	public double lerpTargetY() {
+		return this.lerpSteps > 0 ? this.lerpY : this.getY();
+	}
+
+	@Override
+	public double lerpTargetZ() {
+		return this.lerpSteps > 0 ? this.lerpZ : this.getZ();
+	}
+
+	@Override
+	public float lerpTargetYRot() {
+		return this.lerpSteps > 0 ? this.lerpYRot : this.getYRot();
+	}
+
+	@Override
+	public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps) {
+		this.lerpX = x;
+		this.lerpY = y;
+		this.lerpZ = z;
+		this.lerpYRot = yaw;
+		this.lerpSteps = interpolationSteps;
 	}
 
 	@Override
@@ -61,9 +101,21 @@ public class BalloonCart extends Entity {
 	@Override
 	public void tick() {
 		super.tick();
-		this.setYRot(45);
-		this.applyGravity();
-		this.move(MoverType.SELF, this.getDeltaMovement());
+
+		if (this.isControlledByLocalInstance()) {
+			this.lerpSteps = 0;
+			this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
+
+			this.applyGravity();
+			this.move(MoverType.SELF, this.getDeltaMovement());
+		} else {
+			this.setDeltaMovement(Vec3.ZERO);
+		}
+
+		if (this.lerpSteps > 0) {
+			this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.getXRot());
+			--this.lerpSteps;
+		}
 	}
 
 	@Override
@@ -86,6 +138,12 @@ public class BalloonCart extends Entity {
 	@Override
 	public boolean isPickable() {
 		return true;
+	}
+
+	@Nullable
+	@Override
+	public ItemStack getPickResult() {
+		return UpAndAwayItems.BALLOON_CART.getDefaultInstance();
 	}
 
 	@Override
