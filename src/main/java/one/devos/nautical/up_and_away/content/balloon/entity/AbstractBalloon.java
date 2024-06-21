@@ -8,6 +8,8 @@ import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonA
 
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachmentHolder;
 
+import one.devos.nautical.up_and_away.content.balloon.item.BalloonItem;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
@@ -16,7 +18,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.Entity.MovementEmission;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.item.ItemStack;
@@ -140,6 +141,11 @@ public abstract class AbstractBalloon extends Entity {
 
 	public ItemStack item() {
 		return this.entityData.get(ITEM);
+	}
+
+	public BalloonShape shape() {
+		// TODO: this is bad
+		return ((BalloonItem) this.item().getItem()).shape;
 	}
 
 	@Nullable

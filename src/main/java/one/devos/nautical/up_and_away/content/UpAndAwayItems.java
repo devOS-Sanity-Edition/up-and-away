@@ -1,11 +1,10 @@
 package one.devos.nautical.up_and_away.content;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import one.devos.nautical.up_and_away.UpAndAway;
@@ -15,7 +14,6 @@ import one.devos.nautical.up_and_away.content.balloon.item.filled.AirBalloonItem
 import one.devos.nautical.up_and_away.content.balloon.item.BalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.DeflatedBalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.filled.FloatyBalloonItem;
-import one.devos.nautical.up_and_away.content.balloon.item.filled.WaterBalloonItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -28,11 +26,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.DyedItemColor;
 
 public class UpAndAwayItems {
+	public static final List<Item> ALL_BALLOONS = new ArrayList<>();
+
 	public static final Map<BalloonShape, Item>
 			DEFLATED_BALLOONS = balloons("%s_deflated_balloon", UpAndAwayItems::noAnimals, DeflatedBalloonItem::new),
 			AIR_BALLOONS = balloons("%s_air_balloon", UpAndAwayItems::all, AirBalloonItem::new),
-			FLOATY_BALLOONS = balloons("%s_floaty_balloon", UpAndAwayItems::all, FloatyBalloonItem::new),
-			WATER_BALLOONS = balloons("%s_water_balloon", UpAndAwayItems::noAnimals, WaterBalloonItem::new);
+			FLOATY_BALLOONS = balloons("%s_floaty_balloon", UpAndAwayItems::all, FloatyBalloonItem::new);
 
 	public static final Item BALLOON_CART = register("balloon_cart", new BalloonCartItem(new Properties()));
 
@@ -45,9 +44,7 @@ public class UpAndAwayItems {
 							new ItemStack(FLOATY_BALLOONS.get(BalloonShape.ROUND)), List.of((DyeItem) Items.RED_DYE)
 					))
 					.displayItems((params, output) -> {
-						Stream.of(
-								DEFLATED_BALLOONS, AIR_BALLOONS, FLOATY_BALLOONS, WATER_BALLOONS
-						).map(Map::values).flatMap(Collection::stream).forEach(output::accept);
+						ALL_BALLOONS.forEach(output::accept);
 						output.accept(BALLOON_CART);
 					})
 					.build()
@@ -58,7 +55,9 @@ public class UpAndAwayItems {
 		for (BalloonShape shape : BalloonShape.values()) {
 			if (test.test(shape)) {
 				String name = template.formatted(shape);
-				map.put(shape, register(name, factory.create(shape, new Properties())));
+				BalloonItem item = factory.create(shape, new Properties());
+				ALL_BALLOONS.add(item);
+				map.put(shape, register(name, item));
 			}
 		}
 		return map;
