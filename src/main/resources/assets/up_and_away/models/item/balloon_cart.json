@@ -530,13 +530,13 @@
 			"translation": [2, -3.25, 0.25]
 		},
 		"firstperson_righthand": {
-			"rotation": [2.83, 64.17, 3.38],
-			"translation": [2.5, -1, -2.25],
+			"rotation": [31.71, 86.27, -13.26],
+			"translation": [-6.25, 11, 0.75],
 			"scale": [0.64, 0.64, 0.64]
 		},
 		"firstperson_lefthand": {
-			"rotation": [2.83, 64.17, 3.38],
-			"translation": [2.5, -1, -2.25],
+			"rotation": [31.71, 86.27, -13.26],
+			"translation": [-6, 11, 0.75],
 			"scale": [0.64, 0.64, 0.64]
 		},
 		"ground": {
@@ -563,22 +563,26 @@
 			"name": "body",
 			"origin": [9.03125, 17.62034, -0.94032],
 			"color": 0,
+			"nbt": "{}",
 			"children": [
 				{
 					"name": "balloon_ties",
 					"origin": [8, 11.6, 8],
 					"color": 0,
+					"nbt": "{}",
 					"children": [0, 1, 2, 3, 4, 5, 6, 7]
 				},
 				{
 					"name": "helium_tanks",
 					"origin": [15, 30.5, -19.75],
 					"color": 0,
+					"nbt": "{}",
 					"children": [
 						{
 							"name": "right_tank",
 							"origin": [2, 30.5, -19.575],
 							"color": 0,
+							"nbt": "{}",
 							"children": [
 								8,
 								9,
@@ -589,6 +593,7 @@
 									"name": "right_valve",
 									"origin": [2, 31.6, -19.575],
 									"color": 0,
+									"nbt": "{}",
 									"children": [13]
 								}
 							]
@@ -597,6 +602,7 @@
 							"name": "left_tank",
 							"origin": [15, 30.5, -19.75],
 							"color": 0,
+							"nbt": "{}",
 							"children": [
 								14,
 								15,
@@ -607,6 +613,7 @@
 									"name": "left_valve",
 									"origin": [15, 31.6, -19.75],
 									"color": 0,
+									"nbt": "{}",
 									"children": [19]
 								}
 							]
@@ -617,35 +624,41 @@
 					"name": "wheels",
 					"origin": [8, -2.5, 8],
 					"color": 0,
+					"nbt": "{}",
 					"children": [
 						{
 							"name": "left_wheel",
 							"origin": [22.25, 8, 19.5],
 							"color": 0,
+							"nbt": "{}",
 							"children": [20]
 						},
 						{
 							"name": "right_wheel",
 							"origin": [-6.25, 8, 19.5],
 							"color": 0,
+							"nbt": "{}",
 							"children": [21]
 						},
 						{
 							"name": "middle_wheel",
 							"origin": [8, -2.5, 6],
 							"color": 0,
+							"nbt": "{}",
 							"children": [
 								22,
 								{
 									"name": "swivel",
 									"origin": [8, 4.75, -20],
 									"color": 0,
+									"nbt": "{}",
 									"children": [
 										23,
 										{
 											"name": "wheel",
 											"origin": [8, 2, -21],
 											"color": 0,
+											"nbt": "{}",
 											"children": [24]
 										},
 										25
@@ -659,27 +672,32 @@
 					"name": "crafting_table",
 					"origin": [22, 20.5, 14.5],
 					"color": 0,
+					"nbt": "{}",
 					"children": [
 						{
 							"name": "table",
 							"origin": [22, 20.5, 14.5],
 							"color": 0,
+							"nbt": "{}",
 							"children": [26]
 						},
 						{
 							"name": "supports",
 							"origin": [22, 12.25, 15],
 							"color": 0,
+							"nbt": "{}",
 							"children": [
 								{
 									"name": "bottom",
 									"origin": [22, 10, -13],
 									"color": 0,
+									"nbt": "{}",
 									"children": [
 										{
 											"name": "top",
 											"origin": [27.58132, 15.52667, 14.55],
 											"color": 0,
+											"nbt": "{}",
 											"children": []
 										}
 									]
@@ -692,6 +710,7 @@
 					"name": "chest",
 					"origin": [21, 8, -2],
 					"color": 0,
+					"nbt": "{}",
 					"children": [
 						27,
 						28,
@@ -700,6 +719,7 @@
 							"name": "lid",
 							"origin": [10.5, 15, -7],
 							"color": 0,
+							"nbt": "{}",
 							"children": [30, 31]
 						}
 					]
@@ -708,23 +728,27 @@
 					"name": "top_hatches",
 					"origin": [8, 11.5, 8],
 					"color": 0,
+					"nbt": "{}",
 					"children": [
 						{
 							"name": "hinges",
 							"origin": [-1, 22.5, 14],
 							"color": 0,
+							"nbt": "{}",
 							"children": [32, 33, 34, 35]
 						},
 						{
 							"name": "left_hatch",
 							"origin": [-1, 22.75, 20],
 							"color": 0,
+							"nbt": "{}",
 							"children": [36, 37]
 						},
 						{
 							"name": "right_hatch",
 							"origin": [-1, 22.75, 8],
 							"color": 0,
+							"nbt": "{}",
 							"children": [38, 39]
 						}
 					]

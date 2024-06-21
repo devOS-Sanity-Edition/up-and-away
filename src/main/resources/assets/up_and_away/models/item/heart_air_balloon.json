@@ -1,3 +1,72 @@
 {
-  "parent": "minecraft:builtin/entity"
+	"credit": "Made by Cart3r using Blockbench.",
+	"parent": "minecraft:builtin/entity",
+	"elements": [
+		{
+			"from": [-2, 3.75, -3.25],
+			"to": [6, 18.75, 3.75],
+			"rotation": {"angle": -45, "axis": "z", "origin": [-1.75, 9.5, 0.25]},
+			"color": 6,
+			"faces": {
+				"north": {"uv": [0, 0, 15, 8], "rotation": 270, "texture": "#missing"},
+				"east": {"uv": [0, 0, 15, 7], "rotation": 90, "texture": "#missing"},
+				"south": {"uv": [0, 0, 15, 8], "rotation": 270, "texture": "#missing"},
+				"west": {"uv": [0, 0, 15, 7], "rotation": 270, "texture": "#missing"},
+				"up": {"uv": [0, 0, 8, 7], "texture": "#missing"},
+				"down": {"uv": [0, 0, 8, 7], "rotation": 180, "texture": "#missing"}
+			}
+		},
+		{
+			"from": [-9, 3.75, -3.25],
+			"to": [-2, 11.75, 3.75],
+			"rotation": {"angle": -45, "axis": "z", "origin": [-1.75, 9.5, 0.25]},
+			"color": 6,
+			"faces": {
+				"north": {"uv": [0, 0, 8, 7], "rotation": 270, "texture": "#missing"},
+				"east": {"uv": [0, 0, 8, 7], "rotation": 90, "texture": "#missing"},
+				"south": {"uv": [0, 0, 8, 7], "rotation": 270, "texture": "#missing"},
+				"west": {"uv": [0, 0, 8, 7], "rotation": 270, "texture": "#missing"},
+				"up": {"uv": [0, 0, 7, 7], "texture": "#missing"},
+				"down": {"uv": [0, 0, 7, 7], "rotation": 180, "texture": "#missing"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [30, 4, 16],
+			"translation": [2.5, 2.5, 4],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [30, 4, 5],
+			"translation": [-3.5, 1, 4],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -3, 0],
+			"translation": [2.5, 4.25, 3.25],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -3, 0],
+			"translation": [-4, 4.25, 3.25],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [2, 1, 2],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [-7, -0.5, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"head": {
+			"translation": [8, 15.75, 8]
+		},
+		"fixed": {
+			"translation": [4, -0.25, 2.5],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
 }
