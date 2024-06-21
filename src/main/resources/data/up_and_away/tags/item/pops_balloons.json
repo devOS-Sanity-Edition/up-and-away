@@ -1,0 +1,32 @@
+{
+  "values": [
+    "#minecraft:swords",
+    "#minecraft:axes",
+    "#minecraft:pickaxes",
+    "minecraft:trident",
+    "minecraft:shears",
+    "#minecraft:hoes",
+    "minecraft:arrow",
+    "minecraft:spectral_arrow",
+    "minecraft:tipped_arrow",
+    "minecraft:amethyst_shard",
+    "minecraft:prismarine_shard",
+    "minecraft:flint",
+    "minecraft:cactus",
+    "minecraft:dead_bush",
+    "minecraft:campfire",
+    "minecraft:soul_campfire",
+    "minecraft:pointed_dripstone",
+    "minecraft:small_amethyst_bud",
+    "minecraft:medium_amethyst_bud",
+    "minecraft:large_amethyst_bud",
+    "minecraft:amethyst_cluster",
+    "minecraft:amethyst_block",
+    "minecraft:budding_amethyst",
+    "minecraft:calibrated_sculk_sensor",
+    "minecraft:brick",
+    "minecraft:rose_bush",
+    "minecraft:magma_block",
+    "minecraft:wither_rose"
+  ]
+}
