@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 
 public interface UsableOnEntityItem {
-	InteractionResult useOnEntity(ItemStack stack, Entity entity, Player user);
+	InteractionResult useOnEntity(ItemStack stack, Entity entity, @Nullable Player user);
 
 	static InteractionResult onUseEntity(Player player, Level world, InteractionHand hand, Entity entity, @Nullable EntityHitResult hitResult) {
 		ItemStack stack = player.getItemInHand(hand);

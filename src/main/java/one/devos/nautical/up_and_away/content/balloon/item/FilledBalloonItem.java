@@ -49,7 +49,7 @@ public abstract class FilledBalloonItem extends BalloonItem implements UsableOnE
 	}
 
 	@Override
-	public InteractionResult useOnEntity(ItemStack stack, Entity entity, Player user) {
+	public InteractionResult useOnEntity(ItemStack stack, Entity entity, @Nullable Player user) {
 		double stringLength = BalloonAttachment.getStringLength(entity.getRandom());
 		BalloonAttachment attachment = new EntityBalloonAttachment(entity, stringLength);
 		return this.spawnAttachedBalloon(entity.level(), stack, user, attachment, entity.getEyePosition());
@@ -61,10 +61,7 @@ public abstract class FilledBalloonItem extends BalloonItem implements UsableOnE
 
 			balloon.setPos(spawnPos);
 			level.addFreshEntity(balloon);
-
-			if (user != null) {
-				stack.consume(1, user);
-			}
+			stack.consume(1, user);
 		}
 		return InteractionResult.SUCCESS;
 	}
