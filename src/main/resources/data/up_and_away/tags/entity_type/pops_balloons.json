@@ -1,27 +1,6 @@
 {
   "values": [
-    "minecraft:evoker_fangs",
-    "minecraft:arrow",
-    "minecraft:firework_rocket",
-    "minecraft:spectral_arrow",
-    "minecraft:ender_dragon",
-    "minecraft:wither",
-    "minecraft:fireball",
-    "minecraft:small_fireball",
-    "minecraft:dragon_fireball",
-    "minecraft:goat",
-    "minecraft:hoglin",
-    "minecraft:vex",
-    "minecraft:shulker_bullet",
-    "minecraft:trident",
     "minecraft:snowball",
-    "minecraft:egg",
-    "minecraft:guardian",
-    "minecraft:elder_guardian",
-    "minecraft:blaze",
-    "minecraft:pufferfish",
-    "minecraft:lightning_bolt",
-    "minecraft:magma_cube",
-    "minecraft:fishing_bobber"
+    "minecraft:egg"
   ]
 }
