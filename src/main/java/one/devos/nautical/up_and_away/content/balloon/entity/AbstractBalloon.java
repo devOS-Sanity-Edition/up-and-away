@@ -44,7 +44,7 @@ public abstract class AbstractBalloon extends Entity {
 	public static final TagKey<Item> SHARP_ITEMS = TagKey.create(Registries.ITEM, UpAndAway.id("pops_balloons"));
 	public static final TagKey<EntityType<?>> SHARP_ENTITIES = TagKey.create(Registries.ENTITY_TYPE, UpAndAway.id("pops_balloons"));
 
-	private static final ItemStack itemFallback = new ItemStack(UpAndAwayItems.FLOATY_BALLOONS.get(BalloonShape.ROUND));
+	private static final ItemStack itemFallback = new ItemStack(UpAndAwayItems.FLOATY.get(BalloonShape.ROUND));
 
 	private BalloonAttachmentHolder attachmentHolder;
 

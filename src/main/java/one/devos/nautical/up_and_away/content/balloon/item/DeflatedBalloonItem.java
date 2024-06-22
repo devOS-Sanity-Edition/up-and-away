@@ -51,7 +51,7 @@ public class DeflatedBalloonItem extends BalloonItem {
 		if (ticksUsedFor < INFLATE_THRESHOLD)
 			return;
 
-		Item inflated = UpAndAwayItems.AIR_BALLOONS.get(this.shape);
+		Item inflated = UpAndAwayItems.AIR.get(this.shape);
 		if (inflated == null)
 			return;
 
