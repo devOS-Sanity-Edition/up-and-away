@@ -1,0 +1,122 @@
+{
+  "balloon_pop": {
+    "sounds": [
+      {
+        "name": "up_and_away:balloon/pop",
+        "pitch": 1,
+        "volume": 1.5
+      },
+      {
+        "name": "up_and_away:balloon/pop",
+        "pitch": 1.05,
+        "volume": 1.5
+      },
+      {
+        "name": "up_and_away:balloon/pop",
+        "pitch": 1.1,
+        "volume": 1.5
+      },
+      {
+        "name": "up_and_away:balloon/pop",
+        "pitch": 1.15,
+        "volume": 1.5
+      },
+      {
+        "name": "up_and_away:balloon/pop",
+        "pitch": 1.2,
+        "volume": 1.5
+      }
+    ],
+    "subtitle": "subtitles.up_and_away.balloon.pop"
+  },
+  "balloon_inflate": {
+    "sounds": [
+      {
+        "name": "up_and_away:balloon/inflate",
+        "pitch": 1,
+        "volume": 1
+      },
+      {
+        "name": "up_and_away:balloon/inflate",
+        "pitch": 1.1,
+        "volume": 1
+      },
+      {
+        "name": "up_and_away:balloon/inflate",
+        "pitch": 1.2,
+        "volume": 1
+      },
+      {
+        "name": "up_and_away:balloon/inflate",
+        "pitch": 1.3,
+        "volume": 1
+      },
+      {
+        "name": "up_and_away:balloon/inflate",
+        "pitch": 1.4,
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.up_and_away.balloon.inflate"
+  },
+  "balloon_deflate": {
+    "sounds": [
+      {
+        "name": "up_and_away:balloon/deflate",
+        "pitch": 1,
+        "volume": 1
+      },
+      {
+        "name": "up_and_away:balloon/deflate",
+        "pitch": 1.05,
+        "volume": 1
+      },
+      {
+        "name": "up_and_away:balloon/deflate",
+        "pitch": 1.1,
+        "volume": 1
+      },
+      {
+        "name": "up_and_away:balloon/deflate",
+        "pitch": 1.15,
+        "volume": 1
+      },
+      {
+        "name": "up_and_away:balloon/deflate",
+        "pitch": 1.2,
+        "volume": 1
+      }
+    ],
+    "subtitle": "subtitles.up_and_away.balloon.deflate"
+  },
+  "balloon_animal_tie": {
+    "sounds": [
+      {
+        "name": "up_and_away:balloon/tie",
+        "pitch": 1,
+        "volume": 1.2
+      },
+      {
+        "name": "up_and_away:balloon/tie",
+        "pitch": 1.05,
+        "volume": 1.2
+      },
+      {
+        "name": "up_and_away:balloon/tie",
+        "pitch": 1.1,
+        "volume": 1.2
+      },
+      {
+        "name": "up_and_away:balloon/tie",
+        "pitch": 1.15,
+        "volume": 1.2
+      },
+      {
+        "name": "up_and_away:balloon/tie",
+        "pitch": 1.2,
+        "volume": 1.2
+      }
+    ],
+    "subtitle": "subtitles.up_and_away.balloon.tie"
+  }
+}
