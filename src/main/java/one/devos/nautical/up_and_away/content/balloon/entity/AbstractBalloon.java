@@ -44,7 +44,7 @@ public abstract class AbstractBalloon extends Entity {
 	public static final TagKey<Item> SHARP_ITEMS = TagKey.create(Registries.ITEM, UpAndAway.id("pops_balloons"));
 	public static final TagKey<EntityType<?>> SHARP_ENTITIES = TagKey.create(Registries.ENTITY_TYPE, UpAndAway.id("pops_balloons"));
 
-	private static final ItemStack itemFallback = new ItemStack(UpAndAwayItems.FLOATY_BALLOONS.get(BalloonShape.ROUND));
+	private static final ItemStack itemFallback = new ItemStack(UpAndAwayItems.FLOATY.get(BalloonShape.ROUND));
 
 	private BalloonAttachmentHolder attachmentHolder;
 
@@ -89,8 +89,8 @@ public abstract class AbstractBalloon extends Entity {
 		super.tick();
 		this.applyGravity();
 		this.applyAirDrag();
-		this.move(MoverType.SELF, this.getDeltaMovement());
 		this.handleAttachment();
+		this.move(MoverType.SELF, this.getDeltaMovement());
 	}
 
 	private void applyAirDrag() {
@@ -112,8 +112,9 @@ public abstract class AbstractBalloon extends Entity {
 			this.teleportTo(pos.x, pos.y, pos.z);
 		} else if (attachment.isTooFar(this.position())) {
 			Vec3 to = this.position().vectorTo(attachment.getPos());
-			Vec3 vel = to.scale(0.02);
-			this.setDeltaMovement(vel);
+			double dist = to.length();
+			double extra = dist - attachment.stringLength;
+			this.setDeltaMovement(to.normalize().scale(extra + 0.1));
 		}
 	}
 

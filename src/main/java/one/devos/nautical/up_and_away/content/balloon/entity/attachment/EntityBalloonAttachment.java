@@ -27,8 +27,9 @@ public class EntityBalloonAttachment extends BalloonAttachment {
 	}
 
 	@Override
-	public Vec3 getPos() {
-		return this.entity.getBoundingBox().getCenter();
+	public Vec3 getPos(float partialTicks) {
+		float height = this.entity.getBbHeight();
+		return this.entity.getPosition(partialTicks).add(0, height / 2f, 0);
 	}
 
 	@Override
