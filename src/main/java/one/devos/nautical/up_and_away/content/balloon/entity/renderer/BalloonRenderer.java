@@ -50,8 +50,10 @@ public class BalloonRenderer extends EntityRenderer<AbstractBalloon> {
 
 		BalloonAttachment attachment = balloon.attachment();
 		if (attachment != null) {
-			this.renderString(balloon, partialTicks, matrices, buffers, attachment.getPos());
+			this.renderString(balloon, partialTicks, matrices, buffers, attachment.getPos(partialTicks));
 		}
+
+
 	}
 
 	@Override

@@ -89,8 +89,8 @@ public abstract class AbstractBalloon extends Entity {
 		super.tick();
 		this.applyGravity();
 		this.applyAirDrag();
-		this.move(MoverType.SELF, this.getDeltaMovement());
 		this.handleAttachment();
+		this.move(MoverType.SELF, this.getDeltaMovement());
 	}
 
 	private void applyAirDrag() {
@@ -112,8 +112,9 @@ public abstract class AbstractBalloon extends Entity {
 			this.teleportTo(pos.x, pos.y, pos.z);
 		} else if (attachment.isTooFar(this.position())) {
 			Vec3 to = this.position().vectorTo(attachment.getPos());
-			Vec3 vel = to.scale(0.02);
-			this.setDeltaMovement(vel);
+			double dist = to.length();
+			double extra = dist - attachment.stringLength;
+			this.setDeltaMovement(to.normalize().scale(extra + 0.1));
 		}
 	}
 

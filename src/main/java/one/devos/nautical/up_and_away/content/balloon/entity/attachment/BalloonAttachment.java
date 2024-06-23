@@ -39,7 +39,11 @@ public abstract class BalloonAttachment {
 	 */
 	public abstract boolean validate();
 
-	public abstract Vec3 getPos();
+	public abstract Vec3 getPos(float partialTicks);
+
+	public final Vec3 getPos() {
+		return this.getPos(1);
+	}
 
 	protected abstract void toNbt(CompoundTag nbt);
 

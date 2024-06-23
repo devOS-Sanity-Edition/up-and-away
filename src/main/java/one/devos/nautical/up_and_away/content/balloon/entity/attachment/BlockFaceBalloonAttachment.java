@@ -45,7 +45,7 @@ public class BlockFaceBalloonAttachment extends BalloonAttachment {
 	}
 
 	@Override
-	public Vec3 getPos() {
+	public Vec3 getPos(float partialTicks) {
 		return this.pos;
 	}
 
