@@ -143,10 +143,10 @@ public class BalloonCart extends Entity {
 			if (entry.getValue().equals(data)) {
 				InteractableAnimationState animationState = this.interactableAnimationStates.get(entry.getKey());
 				if ((boolean) this.getEntityData().get(data)) {
-					animationState.open.start(this.tickCount);
+					animationState.open.startIfStopped(this.tickCount);
 					animationState.close.stop();
 				} else {
-					animationState.close.start(this.tickCount);
+					animationState.close.startIfStopped(this.tickCount);
 					animationState.open.stop();
 				}
 				return;
