@@ -16,7 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.entity.BalloonCart;
-import one.devos.nautical.up_and_away.content.balloon.entity.BalloonCartInteraction;
+import one.devos.nautical.up_and_away.content.balloon.entity.BalloonCartInteractable;
+import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.BalloonCartModel;
 
 public class BalloonCartRenderer extends EntityRenderer<BalloonCart> {
 	public static final ResourceLocation TEXTURE = UpAndAway.id("textures/entity/balloon_cart/balloon_cart.png");
@@ -31,7 +32,7 @@ public class BalloonCartRenderer extends EntityRenderer<BalloonCart> {
 	public void render(BalloonCart cart, float yRot, float partialTicks, PoseStack matrices, MultiBufferSource buffers, int light) {
 		matrices.pushPose();
 		matrices.mulPose(Axis.YP.rotationDegrees(180 - yRot));
-		for (BalloonCartInteraction interaction : BalloonCartInteraction.VALUES) {
+		for (BalloonCartInteractable interaction : BalloonCartInteractable.VALUES) {
 			Vec3 color = interaction.debugColor;
 			LevelRenderer.renderLineBox(
 					matrices,
@@ -45,6 +46,7 @@ public class BalloonCartRenderer extends EntityRenderer<BalloonCart> {
 		}
 		matrices.scale(-1.0F, -1.0F, 1.0F);
 		matrices.translate(0.0F, -1.501F, 0.0F);
+		this.model.setupAnim(cart, 0, 0, cart.tickCount + partialTicks, 0, 0);
 		RenderType renderType = this.model.renderType(this.getTextureLocation(cart));
 		VertexConsumer buffer = buffers.getBuffer(renderType);
 		this.model.renderToBuffer(matrices, buffer, light, OverlayTexture.NO_OVERLAY);

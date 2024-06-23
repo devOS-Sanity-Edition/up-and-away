@@ -1,10 +1,13 @@
 package one.devos.nautical.up_and_away.content.balloon.entity;
 
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
@@ -18,6 +21,9 @@ import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 public class BalloonCart extends Entity {
 	public static final double WIDTH = 28 / 16d;
 	public static final double HEIGHT = 24 / 16d;
@@ -30,14 +36,42 @@ public class BalloonCart extends Entity {
 	private double lerpZ;
 	private float lerpYRot;
 
+	private static final EnumMap<BalloonCartInteractable, EntityDataAccessor<Boolean>> INTERACTABLE_STATES = Util.make(
+		new EnumMap<>(BalloonCartInteractable.class),
+		map -> {
+			for (BalloonCartInteractable interactable : BalloonCartInteractable.VALUES) {
+				map.put(interactable, SynchedEntityData.defineId(BalloonCart.class, EntityDataSerializers.BOOLEAN));
+			}
+		}
+	);
+
+	public final EnumMap<BalloonCartInteractable, InteractableAnimationState> interactableAnimationStates = Util.make(
+		new EnumMap<>(BalloonCartInteractable.class),
+		map -> {
+			for (BalloonCartInteractable interactable : BalloonCartInteractable.VALUES) {
+				map.put(interactable, new InteractableAnimationState(interactable));
+			}
+		}
+	);
+
 	public BalloonCart(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.blocksBuilding = true;
 	}
 
+	public void setInteractableState(BalloonCartInteractable interactable, boolean open) {
+		this.getEntityData().set(INTERACTABLE_STATES.get(interactable), open);
+	}
+
+	public boolean getInteractableState(BalloonCartInteractable interactable) {
+		return this.getEntityData().get(INTERACTABLE_STATES.get(interactable));
+	}
+
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
-
+		for (EntityDataAccessor<Boolean> data : INTERACTABLE_STATES.values()) {
+			builder.define(data, false);
+		}
 	}
 
 	@Override
@@ -80,22 +114,44 @@ public class BalloonCart extends Entity {
 	}
 
 	@Override
-	public InteractionResult interactAt(Player player, Vec3 hitPos, InteractionHand hand) {
-		InteractionResult result = super.interactAt(player, hitPos, hand);
+	public InteractionResult interact(Player player, InteractionHand hand) {
+		InteractionResult result = super.interact(player, hand);
 		if (!result.consumesAction()) {
-			Vec3 start = hitPos.yRot(this.getYRot() * Mth.DEG_TO_RAD);
+			Vec3 start = player
+					.getEyePosition()
+					.subtract(this.position());
 			Vec3 end = start
 					.add(player
 							.calculateViewVector(player.getXRot(), player.getYRot())
 							.scale(player.entityInteractionRange())
 					);
-			for (BalloonCartInteraction interaction : BalloonCartInteraction.VALUES) {
-				if (interaction.hitBox.intersects(start, end) && interaction.interact(this, player))
-					return InteractionResult.sidedSuccess(this.level().isClientSide);
-			}
+			if (BalloonCartInteractable
+					.raycast(start, end)
+					.map(interactable -> interactable.interact(this, player))
+					.orElse(false)
+			)
+				return InteractionResult.sidedSuccess(this.level().isClientSide);
 			return InteractionResult.FAIL;
 		}
 		return result;
+	}
+
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
+		super.onSyncedDataUpdated(data);
+		for (Map.Entry<BalloonCartInteractable, EntityDataAccessor<Boolean>> entry : INTERACTABLE_STATES.entrySet()) {
+			if (entry.getValue().equals(data)) {
+				InteractableAnimationState animationState = this.interactableAnimationStates.get(entry.getKey());
+				if ((boolean) this.getEntityData().get(data)) {
+					animationState.open.start(this.tickCount);
+					animationState.close.stop();
+				} else {
+					animationState.close.start(this.tickCount);
+					animationState.open.stop();
+				}
+				return;
+			}
+		}
 	}
 
 	@Override
@@ -149,5 +205,17 @@ public class BalloonCart extends Entity {
 	@Override
 	public boolean canBeCollidedWith() {
 		return true;
+	}
+
+	public record InteractableAnimationState(AnimationState open, AnimationState close) {
+		public InteractableAnimationState(BalloonCartInteractable interactable) {
+			this(
+					new AnimationState(),
+					interactable == BalloonCartInteractable.TABLE ? Util.make(new AnimationState(), state -> {
+						state.start(0);
+						state.fastForward(10, 1f);
+					}) : new AnimationState()
+			);
+		}
 	}
 }

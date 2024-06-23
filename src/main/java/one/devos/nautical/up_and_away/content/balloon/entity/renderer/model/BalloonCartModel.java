@@ -1,13 +1,6 @@
-package one.devos.nautical.up_and_away.content.balloon.entity.renderer;
-// Made with Blockbench 4.10.3
-// Exported for Minecraft version 1.17 or later with Mojang mappings
-// Paste this class into your mod and generate all required imports
+package one.devos.nautical.up_and_away.content.balloon.entity.renderer.model;
 
-
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -18,64 +11,24 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.entity.BalloonCart;
+import one.devos.nautical.up_and_away.content.balloon.entity.BalloonCartInteractable;
 
-public class BalloonCartModel extends EntityModel<BalloonCart> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+import java.util.Map;
+
+public class BalloonCartModel extends HierarchicalModel<BalloonCart> {
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(UpAndAway.id("balloon_cart"), "main");
+
 	private final ModelPart body;
-	private final ModelPart balloon_ties;
-	private final ModelPart helium_tanks;
-	private final ModelPart right_tank;
-	private final ModelPart right_valve;
-	private final ModelPart left_tank;
-	private final ModelPart left_valve;
-	private final ModelPart wheels;
-	private final ModelPart left_wheel;
-	private final ModelPart right_wheel;
-	private final ModelPart middle_wheel;
-	private final ModelPart swivel;
-	private final ModelPart wheel;
-	private final ModelPart crafting_table;
-	private final ModelPart table;
-	private final ModelPart supports;
-	private final ModelPart bottom;
-	private final ModelPart top;
-	private final ModelPart chest;
-	private final ModelPart lid;
-	private final ModelPart top_hatches;
-	private final ModelPart hinges;
-	private final ModelPart left_hatch;
-	private final ModelPart right_hatch;
-	private final ModelPart center_decoration;
 
 	public BalloonCartModel(ModelPart root) {
 		this.body = root.getChild("body");
-		this.balloon_ties = this.body.getChild("balloon_ties");
-		this.helium_tanks = this.body.getChild("helium_tanks");
-		this.right_tank = this.helium_tanks.getChild("right_tank");
-		this.right_valve = this.right_tank.getChild("right_valve");
-		this.left_tank = this.helium_tanks.getChild("left_tank");
-		this.left_valve = this.left_tank.getChild("left_valve");
-		this.wheels = this.body.getChild("wheels");
-		this.left_wheel = this.wheels.getChild("left_wheel");
-		this.right_wheel = this.wheels.getChild("right_wheel");
-		this.middle_wheel = this.wheels.getChild("middle_wheel");
-		this.swivel = this.middle_wheel.getChild("swivel");
-		this.wheel = this.swivel.getChild("wheel");
-		this.crafting_table = this.body.getChild("crafting_table");
-		this.table = this.crafting_table.getChild("table");
-		this.supports = this.crafting_table.getChild("supports");
-		this.bottom = this.supports.getChild("bottom");
-		this.top = this.bottom.getChild("top");
-		this.chest = this.body.getChild("chest");
-		this.lid = this.chest.getChild("lid");
-		this.top_hatches = this.body.getChild("top_hatches");
-		this.hinges = this.top_hatches.getChild("hinges");
-		this.left_hatch = this.top_hatches.getChild("left_hatch");
-		this.right_hatch = this.top_hatches.getChild("right_hatch");
-		this.center_decoration = this.body.getChild("center_decoration");
 	}
 
+	/**
+	 * Made with Blockbench 4.10.3
+	 * Exported for Minecraft version 1.17 or later with Mojang mappings
+	 * @author Carter
+	 */
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
@@ -192,7 +145,7 @@ public class BalloonCartModel extends EntityModel<BalloonCart> {
 
 		PartDefinition center_decoration = body.addOrReplaceChild("center_decoration", CubeListBuilder.create().texOffs(168, 18).addBox(-16.125F, -6.925F, -4.475F, 20.0F, 15.0F, 24.0F, new CubeDeformation(0.0F)), PartPose.offset(6.1563F, 2.0453F, 7.4153F));
 
-		PartDefinition brush_r1 = center_decoration.addOrReplaceChild("brush_r1", CubeListBuilder.create().texOffs(214, 0).addBox(-7.0F, 0.0F, -7.0F, 14.0F, 0.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.6868F, -0.7429F, 0.9846F));
+		PartDefinition brush_r1 = center_decoration.addOrReplaceChild("brush_r1", CubeListBuilder.create().texOffs(214, 0).addBox(-7.0F, 2.1F, -7.0F, 14.0F, 0.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -1.6868F, -0.7429F, 0.9846F));
 
 		PartDefinition yellow_paint_can_r1 = center_decoration.addOrReplaceChild("yellow_paint_can_r1", CubeListBuilder.create().texOffs(232, 59).addBox(-3.0F, -3.5F, -3.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.125F, 4.575F, 15.025F, 0.0F, 0.0F, 0.0F));
 
@@ -204,12 +157,18 @@ public class BalloonCartModel extends EntityModel<BalloonCart> {
 	}
 
 	@Override
-	public void setupAnim(BalloonCart entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
+	public ModelPart root() {
+		return this.body;
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k) {
-		this.body.render(poseStack, vertexConsumer, i, j, k);
+	public void setupAnim(BalloonCart balloonCart, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+		for (Map.Entry<BalloonCartInteractable, BalloonCart.InteractableAnimationState> entry : balloonCart.interactableAnimationStates.entrySet()) {
+			BalloonCartInteractable interactable = entry.getKey();
+			BalloonCart.InteractableAnimationState animationState = entry.getValue();
+			animate(animationState.open(), interactable.openAnimationDefinition(), ageInTicks);
+			animate(animationState.close(), interactable.closeAnimationDefinition(), ageInTicks);
+		}
 	}
 }

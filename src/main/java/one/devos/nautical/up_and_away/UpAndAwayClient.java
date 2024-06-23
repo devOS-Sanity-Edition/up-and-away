@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import one.devos.nautical.up_and_away.content.UpAndAwayEntities;
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
-import one.devos.nautical.up_and_away.content.balloon.entity.renderer.BalloonCartModel;
+import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.BalloonCartModel;
 import one.devos.nautical.up_and_away.content.balloon.entity.renderer.BalloonCartRenderer;
 import one.devos.nautical.up_and_away.content.balloon.entity.renderer.BalloonRenderer;
 import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.CubeBalloonModel;
