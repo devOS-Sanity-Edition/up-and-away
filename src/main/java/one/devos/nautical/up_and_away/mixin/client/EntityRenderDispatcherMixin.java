@@ -27,6 +27,6 @@ public abstract class EntityRenderDispatcherMixin {
 			)
 	)
 	private void thingy(Entity entity, double x, double y, double z, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, CallbackInfo ci) {
-		renderServerSideHitbox(matrices, entity, vertexConsumers);
+
 	}
 }
