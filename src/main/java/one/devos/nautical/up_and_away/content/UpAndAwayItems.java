@@ -10,6 +10,7 @@ import one.devos.nautical.up_and_away.content.balloon.item.BalloonItemRenderer;
 import one.devos.nautical.up_and_away.content.balloon.item.filled.AirBalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.DeflatedBalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.filled.FloatyBalloonItem;
+import one.devos.nautical.up_and_away.content.misc.SparkBottle;
 import one.devos.nautical.up_and_away.framework.item.Balloons;
 import one.devos.nautical.up_and_away.framework.item.UseOnEntityDispenseBehavior;
 import net.minecraft.core.Registry;
@@ -46,6 +47,9 @@ public class UpAndAwayItems {
 
 	public static final Item BALLOON_CART = register("balloon_cart", new BalloonCartItem(new Properties()));
 
+	public static final Item STRETCHY_SHEET = register("stretchy_sheet", new Item(new Properties()));
+	public static final Item SPARK_BOTTLE = register("spark_in_a_bottle", new SparkBottle(new Properties().stacksTo(1)));
+
 	public static final CreativeModeTab TAB = Registry.register(
 			BuiltInRegistries.CREATIVE_MODE_TAB,
 			UpAndAway.id("tab"),
@@ -55,6 +59,8 @@ public class UpAndAwayItems {
 							new ItemStack(FLOATY.get(BalloonShape.ROUND)), List.of((DyeItem) Items.RED_DYE)
 					))
 					.displayItems((params, output) -> {
+						output.accept(STRETCHY_SHEET);
+						output.accept(SPARK_BOTTLE);
 						DEFLATED.forEach(output::accept);
 						AIR.forEach(output::accept);
 						FLOATY.forEach(output::accept);

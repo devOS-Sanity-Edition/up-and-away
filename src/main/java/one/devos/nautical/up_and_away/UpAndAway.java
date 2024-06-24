@@ -9,6 +9,7 @@ import one.devos.nautical.up_and_away.content.UpAndAwayEntities;
 
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 
+import one.devos.nautical.up_and_away.content.misc.SparkBottle;
 import one.devos.nautical.up_and_away.framework.item.UsableOnEntityItem;
 
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ public class UpAndAway implements ModInitializer {
 		UpAndAwayEntities.init();
 
 		UseEntityCallback.EVENT.register(UsableOnEntityItem::onUseEntity);
+		UseEntityCallback.EVENT.register(SparkBottle::onUseEntity);
 	}
 
 	public static ResourceLocation id(String path) {
