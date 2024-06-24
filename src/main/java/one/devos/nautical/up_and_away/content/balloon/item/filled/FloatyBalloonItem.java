@@ -30,7 +30,7 @@ public class FloatyBalloonItem extends FilledBalloonItem {
 		return new FloatyBalloon(UpAndAwayEntities.FLOATY_BALLOON, level, stack, attachment);
 	}
 
-	public static class Long extends AirBalloonItem {
+	public static class Long extends FloatyBalloonItem {
 		public Long(BalloonShape shape, Properties properties) {
 			super(shape, properties);
 		}
