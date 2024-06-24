@@ -14,6 +14,7 @@ import one.devos.nautical.up_and_away.content.balloon.entity.packet.BlockBalloon
 import one.devos.nautical.up_and_away.content.balloon.entity.packet.EntityBalloonAttachmentPacket;
 import one.devos.nautical.up_and_away.content.balloon.item.BalloonItem;
 
+import one.devos.nautical.up_and_away.content.balloon.item.DeflatedBalloonItem;
 import one.devos.nautical.up_and_away.framework.entity.ExtraSpawnPacketsEntity;
 
 import one.devos.nautical.up_and_away.framework.entity.SometimesSerializableEntity;
@@ -21,16 +22,12 @@ import one.devos.nautical.up_and_away.framework.entity.SometimesSerializableEnti
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -234,13 +231,10 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	}
 
 	public void pop() {
-		this.playSound(SoundEvents.GENERIC_EXPLODE.value(), 1, 5);
-		if (this.level() instanceof ServerLevel serverLevel) {
-			BlockParticleOption particles = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SLIME_BLOCK.defaultBlockState());
-			Vec3 pos = this.position().add(0, this.getBbHeight() / 2, 0);
-			serverLevel.sendParticles(particles, pos.x, pos.y, pos.z, 10, 0, 0, 0, 1);
+		Vec3 center = this.position().add(0, this.getBbHeight() / 2, 0);
+		DeflatedBalloonItem.pop(this.level(), center, this.getSoundSource());
+		if (!this.level().isClientSide)
 			this.discard();
-		}
 	}
 
 	@Override
