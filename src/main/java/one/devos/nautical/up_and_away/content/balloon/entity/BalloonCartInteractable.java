@@ -37,7 +37,7 @@ public enum BalloonCartInteractable {
 		}
 	},
 	TABLE(
-			AABB.ofSize(new Vec3(5 / 16d, BalloonCart.HEIGHT, 0), 2 / 16d, 12 / 16d, 29 / 16d),
+			AABB.ofSize(new Vec3(14 / 16d, 14.5 / 16d, 6.5 / 16d), 3 / 16d, 12 / 16d, 29 / 16d),
 			new Vec3(0, 0, 255),
 			() -> () -> BalloonCartAnimations.TABLE_OPEN,
 			() -> () -> BalloonCartAnimations.TABLE_CLOSE
