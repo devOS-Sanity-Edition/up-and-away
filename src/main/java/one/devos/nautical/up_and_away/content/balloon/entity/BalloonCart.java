@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.AnimationState;
@@ -117,13 +118,15 @@ public class BalloonCart extends Entity {
 	public InteractionResult interact(Player player, InteractionHand hand) {
 		InteractionResult result = super.interact(player, hand);
 		if (!result.consumesAction()) {
-			Vec3 start = player
-					.getEyePosition()
-					.subtract(this.position());
+			float rot = Mth.wrapDegrees(180 + this.getYRot()) * Mth.DEG_TO_RAD;
+			Vec3 start = player.getEyePosition()
+					.subtract(this.position())
+					.yRot(rot);
 			Vec3 end = start
 					.add(player
 							.calculateViewVector(player.getXRot(), player.getYRot())
 							.scale(player.entityInteractionRange())
+							.yRot(rot)
 					);
 			if (BalloonCartInteractable
 					.raycast(start, end)
