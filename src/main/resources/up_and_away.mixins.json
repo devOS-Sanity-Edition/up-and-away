@@ -10,12 +10,11 @@
     "ServerEntityMixin",
     "ServerLevelAccessorMixin"
   ],
-  "injectors": {
-    "defaultRequire": 1
-  },
   "client": [
-    "client.EntityRenderDispatcherMixin",
     "client.HumanoidModelMixin",
     "client.ItemInHandLayerMixin"
-  ]
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }
