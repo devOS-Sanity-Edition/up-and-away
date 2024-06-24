@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.DyedItemColor;
 
 public class BalloonItemRenderer implements DynamicItemRenderer {
 	public static final BalloonItemRenderer INSTANCE = new BalloonItemRenderer();
@@ -33,7 +34,8 @@ public class BalloonItemRenderer implements DynamicItemRenderer {
 		matrices.mulPose(Axis.XP.rotationDegrees(180));
 		EntityModel<AbstractBalloon> model = this.models.choose(((BalloonItem) stack.getItem()).shape);
 		VertexConsumer vertices = buffers.getBuffer(RenderType.entityTranslucent(BalloonRenderer.TEXTURE));
-		model.renderToBuffer(matrices, vertices, light, overlay);
+		int color = DyedItemColor.getOrDefault(stack, BalloonRenderer.DEFAULT_COLOR);
+		model.renderToBuffer(matrices, vertices, light, overlay, color);
 		matrices.popPose();
 	}
 }

@@ -24,10 +24,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
 
 public class BalloonRenderer extends EntityRenderer<AbstractBalloon> {
+	public static final int DEFAULT_COLOR = 0xFFFFFFFF;
 	public static final ResourceLocation TEXTURE = UpAndAway.id("textures/entity/balloon/balloon.png");
 
 	private final BalloonModels models;
@@ -45,7 +47,8 @@ public class BalloonRenderer extends EntityRenderer<AbstractBalloon> {
 		matrices.mulPose(Axis.XP.rotationDegrees(180));
 		EntityModel<AbstractBalloon> model = this.models.choose(balloon.shape());
 		VertexConsumer vertices = buffers.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(balloon)));
-		model.renderToBuffer(matrices, vertices, light, OverlayTexture.NO_OVERLAY);
+		int color = DyedItemColor.getOrDefault(balloon.item(), DEFAULT_COLOR);
+		model.renderToBuffer(matrices, vertices, light, OverlayTexture.NO_OVERLAY, color);
 		matrices.popPose();
 
 		BalloonAttachment attachment = balloon.attachment();
