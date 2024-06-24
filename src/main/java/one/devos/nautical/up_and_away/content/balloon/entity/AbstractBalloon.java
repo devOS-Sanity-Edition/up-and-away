@@ -21,12 +21,16 @@ import one.devos.nautical.up_and_away.framework.entity.SometimesSerializableEnti
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.network.syncher.SynchedEntityData.Builder;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -39,6 +43,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -224,14 +229,18 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	@Override
 	protected void onInsideBlock(BlockState state) {
-		if (!this.level().isClientSide && state.is(SHARP_BLOCKS))
+		if (state.is(SHARP_BLOCKS))
 			this.pop();
 	}
 
 	public void pop() {
-		// todo: sound
-		if (!this.level().isClientSide)
+		this.playSound(SoundEvents.GENERIC_EXPLODE.value(), 1, 5);
+		if (this.level() instanceof ServerLevel serverLevel) {
+			BlockParticleOption particles = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SLIME_BLOCK.defaultBlockState());
+			Vec3 pos = this.position().add(0, this.getBbHeight() / 2, 0);
+			serverLevel.sendParticles(particles, pos.x, pos.y, pos.z, 10, 0, 0, 0, 1);
 			this.discard();
+		}
 	}
 
 	@Override

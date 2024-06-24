@@ -2,6 +2,7 @@ package one.devos.nautical.up_and_away.content.balloon.item;
 
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -41,6 +42,10 @@ public class DeflatedBalloonItem extends BalloonItem {
 		if (entity.getAirSupply() <= -20) {
 			entity.setAirSupply(0);
 			entity.hurt(level.damageSources().drown(), 2);
+		}
+
+		if (remainingTicks % 20 == 0) {
+			entity.playSound(SoundEvents.PARROT_IMITATE_BREEZE);
 		}
 	}
 
