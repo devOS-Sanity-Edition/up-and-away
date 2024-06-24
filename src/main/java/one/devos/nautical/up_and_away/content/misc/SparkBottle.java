@@ -1,6 +1,7 @@
 package one.devos.nautical.up_and_away.content.misc;
 
 import net.minecraft.Optionull;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ShulkerBullet;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -26,7 +28,7 @@ import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import org.jetbrains.annotations.Nullable;
 
 public class SparkBottle extends Item {
-	private static final double RANGE = 64;
+	public static final double RANGE = 64;
 
 	public SparkBottle(Properties settings) {
 		super(settings);
@@ -37,6 +39,8 @@ public class SparkBottle extends Item {
 		BlockHitResult hit = getPlayerPOVHitResult(world, user, ClipContext.Fluid.ANY);
 		if (hit.getType() == HitResult.Type.MISS) {
 			if (!world.isClientSide) {
+				user.awardStat(Stats.ITEM_USED.get(this));
+
 				Vec3 start = user.getEyePosition();
 				Vec3 delta = user
 						.calculateViewVector(user.getXRot(), user.getYRot())
@@ -51,15 +55,23 @@ public class SparkBottle extends Item {
 				), EntityHitResult::getEntity, user);
 				world.addFreshEntity(new ShulkerBullet(world, user, target, null));
 			}
-			return InteractionResultHolder.sidedSuccess(Items.GLASS_BOTTLE.getDefaultInstance(), world.isClientSide);
+
+			ItemStack stack = user.getItemInHand(hand);
+			return InteractionResultHolder.sidedSuccess(
+					!user.hasInfiniteMaterials() ?
+							ItemUtils.createFilledResult(user.getItemInHand(hand), user, Items.GLASS_BOTTLE.getDefaultInstance()) : stack,
+					world.isClientSide
+			);
 		}
 		return super.use(world, user, hand);
 	}
 
 	public static InteractionResult onUseEntity(Player player, Level world, InteractionHand hand, Entity entity, @Nullable EntityHitResult hitResult) {
-		if (entity.getType().equals(EntityType.SHULKER_BULLET) && player.getItemInHand(hand).is(Items.GLASS_BOTTLE)) {
+		ItemStack stack = player.getItemInHand(hand);
+		if (entity.getType().equals(EntityType.SHULKER_BULLET) && stack.is(Items.GLASS_BOTTLE)) {
 			if (!world.isClientSide) {
-				player.setItemInHand(hand, UpAndAwayItems.SPARK_BOTTLE.getDefaultInstance());
+				player.awardStat(Stats.ITEM_USED.get(Items.GLASS_BOTTLE));
+				player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, UpAndAwayItems.SPARK_BOTTLE.getDefaultInstance()));
 				entity.kill();
 			}
 			return InteractionResult.sidedSuccess(world.isClientSide);

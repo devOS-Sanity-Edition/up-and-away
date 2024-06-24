@@ -3,6 +3,7 @@ package one.devos.nautical.up_and_away.content;
 import java.util.List;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.world.level.block.DispenserBlock;
 import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.item.BalloonCartItem;
@@ -11,6 +12,7 @@ import one.devos.nautical.up_and_away.content.balloon.item.filled.AirBalloonItem
 import one.devos.nautical.up_and_away.content.balloon.item.DeflatedBalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.filled.FloatyBalloonItem;
 import one.devos.nautical.up_and_away.content.misc.SparkBottle;
+import one.devos.nautical.up_and_away.content.misc.SparkBottleDispenseBehavior;
 import one.devos.nautical.up_and_away.framework.item.Balloons;
 import one.devos.nautical.up_and_away.framework.item.UseOnEntityDispenseBehavior;
 import net.minecraft.core.Registry;
@@ -50,7 +52,7 @@ public class UpAndAwayItems {
 	public static final Item BALLOON_CART = register("balloon_cart", new BalloonCartItem(new Properties()));
 
 	public static final Item STRETCHY_SHEET = register("stretchy_sheet", new Item(new Properties()));
-	public static final Item SPARK_BOTTLE = register("spark_in_a_bottle", new SparkBottle(new Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE)));
+	public static final Item SPARK_BOTTLE = register("spark_in_a_bottle", new SparkBottle(new Properties().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE)));
 
 	public static final CreativeModeTab TAB = Registry.register(
 			BuiltInRegistries.CREATIVE_MODE_TAB,
@@ -76,5 +78,6 @@ public class UpAndAwayItems {
 	}
 
 	public static void init() {
+		DispenserBlock.registerBehavior(SPARK_BOTTLE, new SparkBottleDispenseBehavior());
 	}
 }
