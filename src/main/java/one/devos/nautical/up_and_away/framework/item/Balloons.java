@@ -37,6 +37,10 @@ public record Balloons(Map<BalloonShape, BalloonItem> items) {
 		this.items.values().forEach(consumer);
 	}
 
+	public boolean contains(BalloonItem item) {
+		return this.items.containsValue(item);
+	}
+
 	public static Builder builder() {
 		return new Builder();
 	}

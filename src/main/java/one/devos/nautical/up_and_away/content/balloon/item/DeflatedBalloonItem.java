@@ -38,11 +38,6 @@ public class DeflatedBalloonItem extends BalloonItem {
 	}
 
 	@Override
-	public UseAnim getUseAnimation(ItemStack stack) {
-		return UseAnim.TOOT_HORN;
-	}
-
-	@Override
 	public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int remainingTicks) {
 		entity.setAirSupply(entity.getAirSupply() - 6);
 		if (entity.getAirSupply() <= -20) {
