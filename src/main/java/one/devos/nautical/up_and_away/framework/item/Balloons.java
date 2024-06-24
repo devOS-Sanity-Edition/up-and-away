@@ -13,7 +13,9 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry.DynamicItemRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.color.item.ItemColor;
 import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.item.BalloonItem;
@@ -51,6 +53,7 @@ public record Balloons(Map<BalloonShape, BalloonItem> items) {
 		private final Map<BalloonShape, BalloonItem.Factory> factories = new EnumMap<>(BalloonShape.class);
 		private DispenseItemBehavior dispenseBehavior;
 		private Supplier<Supplier<Object>> renderer;
+		private Supplier<Supplier<Object>> colorProvider;
 
 		public Builder template(String template) {
 			this.template = template;
@@ -85,6 +88,12 @@ public record Balloons(Map<BalloonShape, BalloonItem> items) {
 			return this;
 		}
 
+		// same here
+		public Builder colorProvider(Supplier<Supplier<Object>> colorProvider) {
+			this.colorProvider = colorProvider;
+			return this;
+		}
+
 		public Balloons build() {
 			Objects.requireNonNull(this.template, "template");
 			Validate.isTrue(!this.factories.isEmpty(), "factories");
@@ -116,6 +125,10 @@ public record Balloons(Map<BalloonShape, BalloonItem> items) {
 		private void buildClient(BalloonItem item) {
 			if (this.renderer != null) {
 				BuiltinItemRendererRegistry.INSTANCE.register(item, (DynamicItemRenderer) this.renderer.get().get());
+			}
+
+			if (this.colorProvider != null) {
+				ColorProviderRegistry.ITEM.register((ItemColor) this.colorProvider.get().get(), item);
 			}
 		}
 	}

@@ -8,6 +8,7 @@ import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.item.BalloonCartItem;
 import one.devos.nautical.up_and_away.content.balloon.item.BalloonItemRenderer;
+import one.devos.nautical.up_and_away.content.balloon.item.DeflatedBalloonItemColor;
 import one.devos.nautical.up_and_away.content.balloon.item.filled.AirBalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.DeflatedBalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.filled.FloatyBalloonItem;
@@ -31,6 +32,7 @@ public class UpAndAwayItems {
 			.template("%s_deflated_balloon")
 			.factory(DeflatedBalloonItem::new)
 			.exclude(BalloonShape.DOG)
+			.colorProvider(() -> () -> DeflatedBalloonItemColor.INSTANCE)
 			.build();
 
 	public static final Balloons AIR = Balloons.builder()
