@@ -13,8 +13,7 @@ archivesBaseName = archives_base_name
 group = maven_group
 
 String buildNumber = System.getenv("GITHUB_RUN_NUMBER")
-String patch = buildNumber != null ? buildNumber : "99999"
-version = mod_version.replace("<build>", patch)
+version = mod_version + "+build." + (buildNumber == null ? "local" : buildNumber)
 
 repositories {
 	maven { url = "https://maven.quiltmc.org/repository/release" }
