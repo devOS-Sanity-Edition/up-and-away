@@ -40,7 +40,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -275,6 +274,12 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	@Override
 	public boolean isPickable() {
 		return true;
+	}
+
+	@Nullable
+	@Override
+	public ItemStack getPickResult() {
+		return this.item().copy();
 	}
 
 	@Override
