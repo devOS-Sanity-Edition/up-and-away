@@ -6,5 +6,7 @@
   "ingredient": {
     "item": "minecraft:slime_ball"
   },
-  "result": "up_and_away:stretchy_sheet"
+  "result": {
+    "id": "up_and_away:stretchy_sheet"
+  }
 }
