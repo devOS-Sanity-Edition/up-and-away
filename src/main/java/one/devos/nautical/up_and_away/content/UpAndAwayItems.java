@@ -34,6 +34,7 @@ public class UpAndAwayItems {
 	public static final Balloons AIR = Balloons.builder()
 			.template("%s_air_balloon")
 			.factory(AirBalloonItem::new)
+			.factory(BalloonShape.LONG, AirBalloonItem.Long::new)
 			.dispenseBehavior(UseOnEntityDispenseBehavior.INSTANCE)
 			.renderer(() -> () -> BalloonItemRenderer.INSTANCE)
 			.build();
@@ -41,6 +42,7 @@ public class UpAndAwayItems {
 	public static final Balloons FLOATY = Balloons.builder()
 			.template("%s_floaty_balloon")
 			.factory(FloatyBalloonItem::new)
+			.factory(BalloonShape.LONG, FloatyBalloonItem.Long::new)
 			.dispenseBehavior(UseOnEntityDispenseBehavior.INSTANCE)
 			.renderer(() -> () -> BalloonItemRenderer.INSTANCE)
 			.build();
