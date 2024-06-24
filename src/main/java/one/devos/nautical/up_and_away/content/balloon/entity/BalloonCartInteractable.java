@@ -13,7 +13,7 @@ import java.util.function.Supplier;
 
 public enum BalloonCartInteractable {
 	HATCH(
-			AABB.ofSize(new Vec3(0, BalloonCart.HEIGHT, 0), 2 / 16d, 2 / 16d, 8 / 16d),
+			AABB.ofSize(new Vec3(1 / 16d, 22.5 / 16d, 6 / 16d), 20 / 16d, 2 / 16d, 24 / 16d),
 			new Vec3(255, 0, 0),
 			() -> () -> BalloonCartAnimations.HATCH_OPEN,
 			() -> () -> BalloonCartAnimations.HATCH_CLOSE
@@ -25,7 +25,7 @@ public enum BalloonCartInteractable {
 		}
 	},
 	CHEST(
-			AABB.ofSize(new Vec3(3/16d, BalloonCart.HEIGHT, 0), 2 / 16d, 2 / 16d, 8 / 16d),
+			AABB.ofSize(new Vec3(14 / 16d, 13.5 / 16d, -15 / 16d), 2 / 16d, 12 / 16d, 12 / 16d),
 			new Vec3(0, 255, 0),
 			() -> () -> BalloonCartAnimations.CHEST_OPEN,
 			() -> () -> BalloonCartAnimations.CHEST_CLOSE
@@ -37,7 +37,7 @@ public enum BalloonCartInteractable {
 		}
 	},
 	TABLE(
-			AABB.ofSize(new Vec3(5/16d, BalloonCart.HEIGHT, 0), 2 / 16d, 2 / 16d, 8 / 16d),
+			AABB.ofSize(new Vec3(5 / 16d, BalloonCart.HEIGHT, 0), 2 / 16d, 12 / 16d, 29 / 16d),
 			new Vec3(0, 0, 255),
 			() -> () -> BalloonCartAnimations.TABLE_OPEN,
 			() -> () -> BalloonCartAnimations.TABLE_CLOSE
