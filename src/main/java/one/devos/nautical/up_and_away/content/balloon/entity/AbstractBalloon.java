@@ -7,11 +7,19 @@ import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 
-import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachmentHolder;
-
+import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BlockBalloonAttachment;
+import one.devos.nautical.up_and_away.content.balloon.entity.attachment.EntityBalloonAttachment;
+import one.devos.nautical.up_and_away.content.balloon.entity.packet.BalloonDetachPacket;
+import one.devos.nautical.up_and_away.content.balloon.entity.packet.BlockBalloonAttachmentPacket;
+import one.devos.nautical.up_and_away.content.balloon.entity.packet.EntityBalloonAttachmentPacket;
 import one.devos.nautical.up_and_away.content.balloon.item.BalloonItem;
 
+import one.devos.nautical.up_and_away.framework.entity.ExtraSpawnPacketsEntity;
+
+import one.devos.nautical.up_and_away.framework.entity.SometimesSerializableEntity;
+
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -35,7 +43,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public abstract class AbstractBalloon extends Entity {
+public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacketsEntity, SometimesSerializableEntity {
 	public static final EntityDataAccessor<ItemStack> ITEM = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.ITEM_STACK);
 	public static final String ITEM_KEY = "item";
 	public static final String ATTACHMENT_KEY = "attachment";
@@ -46,12 +54,11 @@ public abstract class AbstractBalloon extends Entity {
 
 	private static final ItemStack itemFallback = new ItemStack(UpAndAwayItems.FLOATY.get(BalloonShape.ROUND));
 
-	private BalloonAttachmentHolder attachmentHolder;
+	private BalloonAttachment attachment;
 
 	protected AbstractBalloon(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.blocksBuilding = true;
-		this.setAttachment(null);
 	}
 
 	protected AbstractBalloon(EntityType<?> type, Level level, ItemStack stack, @Nullable BalloonAttachment attachment) {
@@ -70,17 +77,44 @@ public abstract class AbstractBalloon extends Entity {
 		ItemStack stack = ItemStack.parse(this.registryAccess(), nbt.getCompound(ITEM_KEY))
 				.orElseGet(itemFallback::copy);
 		this.entityData.set(ITEM, stack);
+
 		if (nbt.contains(ATTACHMENT_KEY, CompoundTag.TAG_COMPOUND)) {
-			this.attachmentHolder = new BalloonAttachmentHolder(nbt.getCompound(ATTACHMENT_KEY));
+			CompoundTag tag = nbt.getCompound(ATTACHMENT_KEY);
+			this.attachment = BlockBalloonAttachment.fromNbt(tag, this.level());
 		}
 	}
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag nbt) {
 		nbt.put(ITEM_KEY, this.entityData.get(ITEM).save(this.registryAccess()));
-		BalloonAttachment attachment = this.attachment();
-		if (attachment != null) {
-			nbt.put(ATTACHMENT_KEY, attachment.toNbt());
+		if (this.attachment instanceof BlockBalloonAttachment) {
+			nbt.put(ATTACHMENT_KEY, this.attachment.toNbt());
+		}
+	}
+
+	@Override
+	public boolean isSerializable() {
+		return this.attachment == null || this.attachment instanceof BlockBalloonAttachment;
+	}
+
+	public CompoundTag saveWithoutAttachment() {
+		BalloonAttachment attachment = this.attachment;
+		this.attachment = null;
+		CompoundTag nbt = new CompoundTag();
+		try {
+			this.save(nbt);
+		} finally {
+			this.attachment = attachment;
+		}
+		return nbt;
+	}
+
+	@Override
+	public void addSpawnPackets(PacketConsumer consumer) {
+		if (this.attachment instanceof BlockBalloonAttachment block) {
+			consumer.add(new BlockBalloonAttachmentPacket(this, block));
+		} else if (this.attachment instanceof EntityBalloonAttachment entity) {
+			consumer.add(new EntityBalloonAttachmentPacket(this, entity));
 		}
 	}
 
@@ -98,22 +132,21 @@ public abstract class AbstractBalloon extends Entity {
 	}
 
 	private void handleAttachment() {
-		BalloonAttachment attachment = this.attachment();
-		if (attachment == null)
+		if (this.attachment == null)
 			return;
 
-		if (!this.level().isClientSide && !attachment.validate()) {
-			this.setAttachment(null);
+		if (!this.level().isClientSide && !this.attachment.validate()) {
+			this.detach();
 			return;
 		}
 
-		if (attachment.shouldTeleport(this.position())) {
-			Vec3 pos = attachment.getPos();
+		if (this.attachment.shouldTeleport(this.position())) {
+			Vec3 pos = this.attachment.getPos();
 			this.teleportTo(pos.x, pos.y, pos.z);
-		} else if (attachment.isTooFar(this.position())) {
-			Vec3 to = this.position().vectorTo(attachment.getPos());
+		} else if (this.attachment.isTooFar(this.position())) {
+			Vec3 to = this.position().vectorTo(this.attachment.getPos());
 			double dist = to.length();
-			double extra = dist - attachment.stringLength;
+			double extra = dist - this.attachment.stringLength;
 			this.setDeltaMovement(to.normalize().scale(extra + 0.1));
 		}
 	}
@@ -204,12 +237,19 @@ public abstract class AbstractBalloon extends Entity {
 	@Override
 	public AABB getBoundingBoxForCulling() {
 		AABB bounds = super.getBoundingBoxForCulling();
-		BalloonAttachment attachment = this.attachment();
-		if (attachment != null) {
-			Vec3 relativeOffset = this.position().vectorTo(attachment.getPos());
+		if (this.attachment != null) {
+			Vec3 relativeOffset = this.position().vectorTo(this.attachment.getPos());
 			bounds = bounds.expandTowards(relativeOffset);
 		}
 		return bounds;
+	}
+
+	@Override
+	public void remove(RemovalReason reason) {
+		super.remove(reason);
+		if (this.attachment != null) {
+			this.attachment.onRemove(this);
+		}
 	}
 
 	@Override
@@ -241,17 +281,28 @@ public abstract class AbstractBalloon extends Entity {
 		return ((BalloonItem) this.item().getItem()).shape;
 	}
 
-	@Nullable
+	public boolean hasAttachment() {
+		return this.attachment != null;
+	}
+
+	@UnknownNullability("hasAttachment")
 	public BalloonAttachment attachment() {
-		return this.attachmentHolder.get(this.level());
+		return this.attachment;
+	}
+
+	public void detach() {
+		this.attachment = null;
+
+		if (!this.level().isClientSide) {
+			BalloonDetachPacket packet = new BalloonDetachPacket(this);
+			PlayerLookup.tracking(this).forEach(player -> ServerPlayNetworking.send(player, packet));
+		}
 	}
 
 	public void setAttachment(@Nullable BalloonAttachment attachment) {
-		this.attachmentHolder = new BalloonAttachmentHolder(attachment);
-
-		if (!this.level().isClientSide) {
-			BalloonAttachmentPacket packet = new BalloonAttachmentPacket(this, attachment);
-			PlayerLookup.tracking(this).forEach(player -> ServerPlayNetworking.send(player, packet));
+		this.attachment = attachment;
+		if (attachment != null) {
+			attachment.onSet(this);
 		}
 	}
 }
