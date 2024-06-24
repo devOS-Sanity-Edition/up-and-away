@@ -47,6 +47,18 @@ public enum BalloonCartInteractable {
 			cart.setInteractableState(this, !cart.getInteractableState(this));
 			return true;
 		}
+	},
+	HELIUM_TANKS(
+			AABB.ofSize(new Vec3(0 / 16d, 19.5 / 16d, -28 / 16d), 28 / 16d, 24 / 16d, 12 / 16d),
+			new Vec3(255, 0, 255),
+			() -> () -> BalloonCartAnimations.VALVE_OPEN,
+			() -> () -> BalloonCartAnimations.VALVE_CLOSE
+	) {
+		@Override
+		public boolean interact(BalloonCart cart, Player player) {
+			cart.setInteractableState(this, !cart.getInteractableState(this));
+			return true;
+		}
 	};
 
 	public static final BalloonCartInteractable[] VALUES = values();

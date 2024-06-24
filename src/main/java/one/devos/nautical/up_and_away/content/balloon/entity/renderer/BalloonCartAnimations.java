@@ -104,4 +104,28 @@ public class BalloonCartAnimations {
 					new Keyframe(0.34F, KeyframeAnimations.degreeVec(0.0F, 0.0F, -176.59F), AnimationChannel.Interpolations.LINEAR)
 			))
 			.build();
+
+	public static final AnimationDefinition VALVE_OPEN = AnimationDefinition.Builder.withLength(1.0F)
+			.addAnimation("left_valve", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.18F, KeyframeAnimations.degreeVec(0.0F, 60.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.32F, KeyframeAnimations.degreeVec(0.0F, 62.5F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.38F, KeyframeAnimations.degreeVec(0.0F, 62.5F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.64F, KeyframeAnimations.degreeVec(0.0F, 170.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.78F, KeyframeAnimations.degreeVec(0.0F, 175.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.86F, KeyframeAnimations.degreeVec(0.0F, 175.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
+			))
+			.build();
+
+	public static final AnimationDefinition VALVE_CLOSE = AnimationDefinition.Builder.withLength(1.0F)
+			.addAnimation("left_valve", new AnimationChannel(AnimationChannel.Targets.ROTATION,
+			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 175.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.08F, KeyframeAnimations.degreeVec(0.0F, 175.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.22F, KeyframeAnimations.degreeVec(0.0F, 170.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.48F, KeyframeAnimations.degreeVec(0.0F, 62.5F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.54F, KeyframeAnimations.degreeVec(0.0F, 62.5F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.68F, KeyframeAnimations.degreeVec(0.0F, 60.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
+			new Keyframe(0.86F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR)
+			))
+			.build();
 }
