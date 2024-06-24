@@ -48,7 +48,7 @@ public class UpAndAwayItems {
 	public static final Item BALLOON_CART = register("balloon_cart", new BalloonCartItem(new Properties()));
 
 	public static final Item STRETCHY_SHEET = register("stretchy_sheet", new Item(new Properties()));
-	public static final Item SPARK_BOTTLE = register("spark_in_a_bottle", new SparkBottle(new Properties().stacksTo(1)));
+	public static final Item SPARK_BOTTLE = register("spark_in_a_bottle", new SparkBottle(new Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE)));
 
 	public static final CreativeModeTab TAB = Registry.register(
 			BuiltInRegistries.CREATIVE_MODE_TAB,
