@@ -20,6 +20,8 @@ import net.minecraft.world.phys.Vec3;
 
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 
+import one.devos.nautical.up_and_away.framework.util.Utils;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
@@ -179,14 +181,14 @@ public class BalloonCart extends Entity {
 
 	@Override
 	protected AABB makeBoundingBox() {
-		return new AABB(
-				this.getX() - (WIDTH / 2),
-				this.getY(),
-				this.getZ() - Z_OFFSET,
-				this.getX() + (WIDTH / 2),
-				this.getY() + HEIGHT,
-				(this.getZ() - Z_OFFSET) + LENGTH
-		);
+		return Utils.aabbRotateY(-this.getYRot(), new AABB(
+				-WIDTH / 2,
+				0,
+				-Z_OFFSET,
+				WIDTH / 2,
+				HEIGHT,
+				LENGTH - Z_OFFSET
+		)).move(this.position());
 	}
 
 	@Override
@@ -203,11 +205,6 @@ public class BalloonCart extends Entity {
 	@Override
 	public ItemStack getPickResult() {
 		return UpAndAwayItems.BALLOON_CART.getDefaultInstance();
-	}
-
-	@Override
-	public boolean canBeCollidedWith() {
-		return true;
 	}
 
 	public record InteractableAnimationState(AnimationState open, AnimationState close) {
