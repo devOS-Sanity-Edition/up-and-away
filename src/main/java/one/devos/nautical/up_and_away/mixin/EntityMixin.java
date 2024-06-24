@@ -9,6 +9,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import one.devos.nautical.up_and_away.content.balloon.entity.AbstractBalloon;
 
+import one.devos.nautical.up_and_away.content.balloon.entity.FloatyBalloon;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.EntityBalloonAttachment;
@@ -31,6 +32,8 @@ public abstract class EntityMixin implements EntityExt {
 	@Shadow
 	public abstract Vec3 position();
 
+	@Unique
+	private int floatyBalloons = 0;
 	@Unique
 	private final List<AbstractBalloon> balloons = new ArrayList<>();
 
@@ -80,6 +83,24 @@ public abstract class EntityMixin implements EntityExt {
 		return pos.vectorTo(attachment.getPos().add(atMaxLength));
 	}
 
+	@ModifyExpressionValue(
+			method = "getGravity",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/Entity;getDefaultGravity()D"
+			)
+	)
+	private double lowBalloonGravity(double gravity) {
+		if (this.floatyBalloons == 0)
+			return gravity;
+
+		// each balloon subtracts from gravity
+		double subtracted = this.floatyBalloons * FloatyBalloon.GRAVITY_PER_BALLOON;
+
+		// gravity caps at matching floaty balloons
+		return Math.max(gravity - subtracted, FloatyBalloon.GRAVITY);
+	}
+
 	// loaded in EntityTypeMixin
 	@ModifyReturnValue(method = "saveWithoutId", at = @At("RETURN"))
 	private CompoundTag saveBalloons(CompoundTag nbt) {
@@ -98,6 +119,21 @@ public abstract class EntityMixin implements EntityExt {
 		}
 		nbt.put(EntityBalloonAttachment.BALLOONS_KEY, balloonNbtList);
 		return nbt;
+	}
+
+	@Override
+	public void up_and_away$addBalloon(AbstractBalloon balloon) {
+		this.balloons.add(balloon);
+		if (balloon instanceof FloatyBalloon) {
+			this.floatyBalloons++;
+		}
+	}
+
+	@Override
+	public void up_and_away$removeBalloon(AbstractBalloon balloon) {
+		if (this.balloons.remove(balloon) && balloon instanceof FloatyBalloon) {
+			this.floatyBalloons--;
+		}
 	}
 
 	@Override

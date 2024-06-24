@@ -253,6 +253,13 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	}
 
 	@Override
+	public void onClientRemoval() {
+		if (this.attachment != null) {
+			this.attachment.onRemove(this);
+		}
+	}
+
+	@Override
 	protected Vec3 getLeashOffset() {
 		return Vec3.ZERO;
 	}

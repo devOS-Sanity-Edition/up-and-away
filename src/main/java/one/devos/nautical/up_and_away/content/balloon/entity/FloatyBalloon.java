@@ -5,10 +5,15 @@ import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonA
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class FloatyBalloon extends AirBalloon {
+	public static final int BALLOONS_TO_NEGATE = 4;
+	public static final double GRAVITY_PER_BALLOON = (LivingEntity.DEFAULT_BASE_GRAVITY / BALLOONS_TO_NEGATE) - 0.001; // a tiny bit less so you aren't stuck
+	public static final double GRAVITY = -0.04;
+
 	protected FloatyBalloon(EntityType<?> type, Level level) {
 		super(type, level);
 	}
@@ -23,6 +28,6 @@ public class FloatyBalloon extends AirBalloon {
 
 	@Override
 	protected double getDefaultGravity() {
-		return -0.04;
+		return GRAVITY;
 	}
 }

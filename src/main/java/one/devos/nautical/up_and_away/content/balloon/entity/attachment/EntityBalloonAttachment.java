@@ -52,12 +52,20 @@ public non-sealed class EntityBalloonAttachment extends BalloonAttachment {
 
 	@Override
 	public void onRemove(AbstractBalloon balloon) {
-		getBalloons(this.entity).remove(balloon);
+		removeBalloon(this.entity, balloon);
 	}
 
 	@Override
 	public void onSet(AbstractBalloon balloon) {
-		getBalloons(this.entity).add(balloon);
+		addBalloon(this.entity, balloon);
+	}
+
+	public static void addBalloon(Entity entity, AbstractBalloon balloon) {
+		((EntityExt) entity).up_and_away$addBalloon(balloon);
+	}
+
+	public static void removeBalloon(Entity entity, AbstractBalloon balloon) {
+		((EntityExt) entity).up_and_away$removeBalloon(balloon);
 	}
 
 	public static List<AbstractBalloon> getBalloons(Entity entity) {
