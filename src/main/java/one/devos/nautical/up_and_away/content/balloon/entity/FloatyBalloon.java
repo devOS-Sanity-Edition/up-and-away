@@ -13,6 +13,7 @@ public class FloatyBalloon extends AirBalloon {
 	public static final int BALLOONS_TO_NEGATE = 4;
 	public static final double GRAVITY_PER_BALLOON = (LivingEntity.DEFAULT_BASE_GRAVITY / BALLOONS_TO_NEGATE) - 0.001; // a tiny bit less so you aren't stuck
 	public static final double GRAVITY = -0.04;
+	public static final int MAX_HEIGHT_OFFSET = 64;
 
 	protected FloatyBalloon(EntityType<?> type, Level level) {
 		super(type, level);
@@ -24,6 +25,13 @@ public class FloatyBalloon extends AirBalloon {
 
 	public static FloatyBalloon createClient(EntityType<?> type, Level level) {
 		return new FloatyBalloon(type, level);
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		if (this.getY() >= (this.level().getHeight() + MAX_HEIGHT_OFFSET))
+			this.pop();
 	}
 
 	@Override
