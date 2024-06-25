@@ -3,6 +3,7 @@ package one.devos.nautical.up_and_away.content.balloon.entity;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.NbtOps;
@@ -137,6 +138,7 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 		this.applyAirDrag();
 		this.handleAttachment();
 		this.move(MoverType.SELF, this.getDeltaMovement());
+		this.checkSharpBlocks();
 	}
 
 	private void applyAirDrag() {
@@ -161,6 +163,17 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 			double extra = dist - this.attachment.stringLength;
 			this.setDeltaMovement(to.normalize().scale(extra + 0.1));
 		}
+	}
+
+	private void checkSharpBlocks() {
+		if (!this.isInvulnerable() && this.anyCollidingBlocksAreSharp()) {
+			this.pop();
+		}
+	}
+
+	private boolean anyCollidingBlocksAreSharp() {
+		return BlockPos.betweenClosedStream(this.getBoundingBox().inflate(1e-4))
+				.anyMatch(pos -> this.level().getBlockState(pos).is(SHARP_BLOCKS));
 	}
 
 	@Override
@@ -232,12 +245,6 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 		Vec3 vec32 = new Vec3(x, 0.0, z).normalize().scale(strength);
 		this.setDeltaMovement(vec3.x / 2.0 - vec32.x, this.onGround() ? Math.min(0.4, vec3.y / 2.0 + strength) : vec3.y, vec3.z / 2.0 - vec32.z);
-	}
-
-	@Override
-	protected void onInsideBlock(BlockState state) {
-		if (state.is(SHARP_BLOCKS))
-			this.pop();
 	}
 
 	public void pop() {
