@@ -221,8 +221,10 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 			return true;
 		}
 
-		if (source.is(DamageTypeTags.NO_KNOCKBACK))
+		if (source.is(DamageTypeTags.NO_KNOCKBACK) || this.level().isClientSide)
 			return true;
+
+		this.markHurt();
 
 		// from LivingEntity.hurt
 		double dx = 0.0;
