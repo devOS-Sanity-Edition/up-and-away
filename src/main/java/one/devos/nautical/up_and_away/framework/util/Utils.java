@@ -27,17 +27,13 @@ public class Utils {
 		return random.nextInt(minI, maxI) / 1000d;
 	}
 
-	private static final ThreadLocal<Vector3d> TEMP_CENTER = ThreadLocal.withInitial(Vector3d::new);
-	private static final ThreadLocal<Matrix4d> TEMP_MAT = ThreadLocal.withInitial(Matrix4d::new);
-
 	public static AABB aabbRotateY(float yRot, AABB aabb) {
-		Matrix4d mat = TEMP_MAT.get()
-				.identity().rotateY(yRot * Mth.DEG_TO_RAD);
+		Matrix4d mat = new Matrix4d().rotateY(yRot * Mth.DEG_TO_RAD);
 		Vector3d center = mat.transformPosition(
 				Mth.lerp(0.5, aabb.minX, aabb.maxX),
 				Mth.lerp(0.5, aabb.minY, aabb.maxY),
 				Mth.lerp(0.5, aabb.minZ, aabb.maxZ),
-				TEMP_CENTER.get()
+				new Vector3d()
 		);
 
 		double extentX = aabb.getXsize() / 2;
