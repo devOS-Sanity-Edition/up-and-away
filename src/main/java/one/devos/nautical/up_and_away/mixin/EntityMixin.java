@@ -80,12 +80,8 @@ public abstract class EntityMixin implements EntityExt {
 			return motion;
 
 		Vec3 pos = this.position();
-		if (attachment.isTooFar(pos)) {
-			// let logic in tick handle it
-			return motion;
-		}
-
 		Vec3 nextPos = pos.add(motion);
+
 		if (!attachment.isTooFar(nextPos)) {
 			// all is well
 			return motion;
@@ -93,7 +89,7 @@ public abstract class EntityMixin implements EntityExt {
 
 		// next position is too far
 		Vec3 attachmentToNext = attachment.getPos().vectorTo(nextPos);
-		Vec3 atMaxLength = attachmentToNext.normalize().scale(attachment.stringLength - 0.01); // a little shorter, to avoid float imprecision
+		Vec3 atMaxLength = attachmentToNext.normalize().scale(attachment.stringLength);
 		return pos.vectorTo(attachment.getPos().add(atMaxLength));
 	}
 

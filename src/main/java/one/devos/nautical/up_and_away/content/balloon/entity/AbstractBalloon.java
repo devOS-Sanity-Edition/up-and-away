@@ -167,11 +167,6 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 		if (this.attachment.shouldTeleport(this.position())) {
 			Vec3 pos = this.attachment.getPos();
 			this.teleportTo(pos.x, pos.y, pos.z);
-		} else if (this.attachment.isTooFar(this.position())) {
-			Vec3 to = this.position().vectorTo(this.attachment.getPos());
-			double dist = to.length();
-			double extra = dist - this.attachment.stringLength;
-			this.setDeltaMovement(to.normalize().scale(extra + 0.1));
 		}
 	}
 
