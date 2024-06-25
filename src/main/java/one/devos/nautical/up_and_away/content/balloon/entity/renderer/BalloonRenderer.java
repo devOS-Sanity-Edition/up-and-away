@@ -66,7 +66,8 @@ public class BalloonRenderer extends EntityRenderer<AbstractBalloon> {
 	private void renderString(AbstractBalloon balloon, float partialTicks, PoseStack matrices, MultiBufferSource buffers, Vec3 target) {
 		matrices.pushPose();
 		double rot = (balloon.getPreciseBodyRotation(partialTicks) * (Math.PI / 180.0)) + (Math.PI / 2);
-		Vec3 relativeStringOffset = balloon.getLeashOffset(partialTicks);
+		Vec3 relativeStringOffset = balloon.getLeashOffset(partialTicks)
+				.add(0, 0, 1e-5); // lead rendering just doesn't work on a vertical line, add a slight offset
 		double stringOffsetX = Math.cos(rot) * relativeStringOffset.z + Math.sin(rot) * relativeStringOffset.x;
 		double stringOffsetZ = Math.sin(rot) * relativeStringOffset.z - Math.cos(rot) * relativeStringOffset.x;
 		double targetX = Mth.lerp(partialTicks, balloon.xo, balloon.getX()) + stringOffsetX;
