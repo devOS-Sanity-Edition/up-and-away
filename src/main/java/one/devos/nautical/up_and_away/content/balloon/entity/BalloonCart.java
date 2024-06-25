@@ -60,7 +60,6 @@ public class BalloonCart extends Entity {
 	public BalloonCart(EntityType<?> entityType, Level level) {
 		super(entityType, level);
 		this.blocksBuilding = true;
-		this.reapplyPosition();
 	}
 
 	public void setInteractableState(BalloonCartInteractable interactable, boolean open) {
