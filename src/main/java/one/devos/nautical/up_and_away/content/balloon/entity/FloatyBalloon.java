@@ -14,7 +14,7 @@ import net.minecraft.world.level.Level;
 public class FloatyBalloon extends AirBalloon {
 	public static final int BALLOONS_TO_NEGATE = 4;
 	public static final double GRAVITY_PER_BALLOON = (LivingEntity.DEFAULT_BASE_GRAVITY / BALLOONS_TO_NEGATE) - 0.001; // a tiny bit less so you aren't stuck
-	public static final double GRAVITY = -0.04;
+	public static final double GRAVITY = -LivingEntity.DEFAULT_BASE_GRAVITY;
 	public static final int MAX_HEIGHT_OFFSET = 64;
 
 	protected FloatyBalloon(EntityType<?> type, Level level) {
