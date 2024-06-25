@@ -13,13 +13,11 @@ import net.minecraft.world.entity.MobCategory;
 public class UpAndAwayEntities {
 	public static final EntityType<AirBalloon> AIR_BALLOON = register(
 			"air_balloon", EntityType.Builder.of(AirBalloon::createClient, MobCategory.MISC)
-					.sized(1, 1)
 					.build()
 	);
 
 	public static final EntityType<FloatyBalloon> FLOATY_BALLOON = register(
 			"floaty_balloon", EntityType.Builder.of(FloatyBalloon::createClient, MobCategory.MISC)
-					.sized(1, 1)
 					.build()
 	);
 

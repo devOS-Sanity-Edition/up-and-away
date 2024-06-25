@@ -7,6 +7,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
+import net.minecraft.world.entity.EntityDimensions;
 import one.devos.nautical.up_and_away.content.balloon.entity.AbstractBalloon;
 
 import one.devos.nautical.up_and_away.content.balloon.entity.FloatyBalloon;
@@ -36,6 +37,19 @@ public abstract class EntityMixin implements EntityExt {
 	private int floatyBalloons = 0;
 	@Unique
 	private final List<AbstractBalloon> balloons = new ArrayList<>();
+
+	@ModifyExpressionValue(
+			method = "<init>",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/entity/EntityType;getDimensions()Lnet/minecraft/world/entity/EntityDimensions;"
+			)
+	)
+	private EntityDimensions balloonDefaultDimensions(EntityDimensions dimensions) {
+		if ((Object) this instanceof AbstractBalloon)
+			return AbstractBalloon.DEFAULT_SHAPE.dimensions;
+		return dimensions;
+	}
 
 	@ModifyExpressionValue(
 			method = "getEncodeId",

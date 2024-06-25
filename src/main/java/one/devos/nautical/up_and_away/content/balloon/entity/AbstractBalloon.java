@@ -8,6 +8,8 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.util.FastColor;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.component.DyedItemColor;
 import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
@@ -53,6 +55,7 @@ import net.minecraft.world.phys.Vec3;
 public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacketsEntity, SometimesSerializableEntity {
 	public static final EntityDataAccessor<Byte> SHAPE_ID = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.BYTE);
 	public static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.INT);
+	public static final BalloonShape DEFAULT_SHAPE = BalloonShape.ROUND;
 	public static final int DEFAULT_COLOR = 0xFFFFFFFF;
 	public static final String SHAPE_KEY = "shape";
 	public static final String COLOR_KEY = "color";
@@ -82,8 +85,15 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	@Override
 	protected void defineSynchedData(Builder builder) {
-		builder.define(SHAPE_ID, BalloonShape.ROUND.id);
+		builder.define(SHAPE_ID, DEFAULT_SHAPE.id);
 		builder.define(COLOR, AbstractBalloon.DEFAULT_COLOR);
+	}
+
+	@Override
+	public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
+		super.onSyncedDataUpdated(data);
+		if (SHAPE_ID.equals(data))
+			this.refreshDimensions();
 	}
 
 	@Override
@@ -307,6 +317,11 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	@Override
 	protected MovementEmission getMovementEmission() {
 		return MovementEmission.EVENTS;
+	}
+
+	@Override
+	public EntityDimensions getDimensions(Pose pose) {
+		return this.shape().dimensions;
 	}
 
 	public BalloonShape shape() {
