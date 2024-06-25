@@ -91,7 +91,7 @@ public abstract class EntityMixin implements EntityExt {
 			)
 	)
 	private double lowBalloonGravity(double gravity) {
-		if (this.floatyBalloons == 0)
+		if (this.floatyBalloons == 0 || gravity <= FloatyBalloon.GRAVITY)
 			return gravity;
 
 		// each balloon subtracts from gravity
