@@ -2,6 +2,7 @@ package one.devos.nautical.up_and_away.content.balloon.item.filled;
 
 import one.devos.nautical.up_and_away.content.UpAndAwayEntities;
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
+import one.devos.nautical.up_and_away.content.UpAndAwaySounds;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.AbstractBalloon;
 import one.devos.nautical.up_and_away.content.balloon.entity.AirBalloon;
@@ -13,14 +14,12 @@ import one.devos.nautical.up_and_away.framework.item.Balloons;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
@@ -58,8 +57,8 @@ public class AirBalloonItem extends FilledBalloonItem {
 
 		@Override
 		public void onUseTick(Level world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-			if (remainingUseTicks % 10 == 0) {
-				user.playSound(SoundEvents.SLIME_BLOCK_PLACE);
+			if (remainingUseTicks % 40 == 0) {
+				user.playSound(UpAndAwaySounds.BALLOON_ANIMAL_TIE);
 			}
 		}
 
