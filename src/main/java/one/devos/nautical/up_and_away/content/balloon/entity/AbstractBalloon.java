@@ -6,6 +6,7 @@ import net.minecraft.Util;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.item.component.DyedItemColor;
 import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
@@ -87,7 +88,7 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	@Override
 	protected void readAdditionalSaveData(CompoundTag nbt) {
 		BalloonShape.CODEC.decode(NbtOps.INSTANCE, nbt.get(SHAPE_KEY)).ifSuccess(pair -> this.entityData.set(SHAPE_ID, pair.getFirst().id));
-		this.entityData.set(COLOR, nbt.getInt(COLOR_KEY));
+		this.entityData.set(COLOR, FastColor.ARGB32.opaque(nbt.getInt(COLOR_KEY)));
 		if (nbt.contains(ATTACHMENT_KEY, CompoundTag.TAG_COMPOUND)) {
 			CompoundTag tag = nbt.getCompound(ATTACHMENT_KEY);
 			this.attachment = BlockBalloonAttachment.fromNbt(tag, this.level());
