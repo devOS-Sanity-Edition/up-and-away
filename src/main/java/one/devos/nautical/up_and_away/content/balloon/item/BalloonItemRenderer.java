@@ -34,7 +34,7 @@ public class BalloonItemRenderer implements DynamicItemRenderer {
 		matrices.mulPose(Axis.XP.rotationDegrees(180));
 		EntityModel<AbstractBalloon> model = this.models.choose(((BalloonItem) stack.getItem()).shape);
 		VertexConsumer vertices = buffers.getBuffer(RenderType.entityTranslucent(BalloonRenderer.TEXTURE));
-		int color = DyedItemColor.getOrDefault(stack, BalloonRenderer.DEFAULT_COLOR);
+		int color = DyedItemColor.getOrDefault(stack, AbstractBalloon.DEFAULT_COLOR);
 		model.renderToBuffer(matrices, vertices, light, overlay, color);
 		matrices.popPose();
 	}

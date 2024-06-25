@@ -1,5 +1,7 @@
 package one.devos.nautical.up_and_away.content.balloon.entity;
 
+import net.minecraft.world.item.Item;
+import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +27,11 @@ public class FloatyBalloon extends AirBalloon {
 
 	public static FloatyBalloon createClient(EntityType<?> type, Level level) {
 		return new FloatyBalloon(type, level);
+	}
+
+	@Override
+	protected Item baseItem() {
+		return UpAndAwayItems.FLOATY.get(this.shape());
 	}
 
 	@Override

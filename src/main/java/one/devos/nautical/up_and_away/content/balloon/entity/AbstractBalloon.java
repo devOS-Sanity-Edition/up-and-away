@@ -2,8 +2,12 @@ package one.devos.nautical.up_and_away.content.balloon.entity;
 
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.Util;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.world.item.component.DyedItemColor;
 import one.devos.nautical.up_and_away.UpAndAway;
-import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 
@@ -12,8 +16,8 @@ import one.devos.nautical.up_and_away.content.balloon.entity.attachment.EntityBa
 import one.devos.nautical.up_and_away.content.balloon.entity.packet.BalloonDetachPacket;
 import one.devos.nautical.up_and_away.content.balloon.entity.packet.BlockBalloonAttachmentPacket;
 import one.devos.nautical.up_and_away.content.balloon.entity.packet.EntityBalloonAttachmentPacket;
-import one.devos.nautical.up_and_away.content.balloon.item.BalloonItem;
 
+import one.devos.nautical.up_and_away.content.balloon.item.BalloonItem;
 import one.devos.nautical.up_and_away.content.balloon.item.DeflatedBalloonItem;
 import one.devos.nautical.up_and_away.framework.entity.ExtraSpawnPacketsEntity;
 
@@ -45,15 +49,16 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacketsEntity, SometimesSerializableEntity {
-	public static final EntityDataAccessor<ItemStack> ITEM = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.ITEM_STACK);
-	public static final String ITEM_KEY = "item";
+	public static final EntityDataAccessor<Byte> SHAPE_ID = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.BYTE);
+	public static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.INT);
+	public static final int DEFAULT_COLOR = 0xFFFFFFFF;
+	public static final String SHAPE_KEY = "shape";
+	public static final String COLOR_KEY = "color";
 	public static final String ATTACHMENT_KEY = "attachment";
 
 	public static final TagKey<Block> SHARP_BLOCKS = TagKey.create(Registries.BLOCK, UpAndAway.id("pops_balloons"));
 	public static final TagKey<Item> SHARP_ITEMS = TagKey.create(Registries.ITEM, UpAndAway.id("pops_balloons"));
 	public static final TagKey<EntityType<?>> SHARP_ENTITIES = TagKey.create(Registries.ENTITY_TYPE, UpAndAway.id("pops_balloons"));
-
-	private static final ItemStack itemFallback = new ItemStack(UpAndAwayItems.FLOATY.get(BalloonShape.ROUND));
 
 	private BalloonAttachment attachment;
 
@@ -64,21 +69,25 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	protected AbstractBalloon(EntityType<?> type, Level level, ItemStack stack, @Nullable BalloonAttachment attachment) {
 		this(type, level);
-		this.entityData.set(ITEM, stack.copy());
 		this.setAttachment(attachment);
+		if (stack.getItem() instanceof BalloonItem item) {
+			this.entityData.set(SHAPE_ID, item.shape.id);
+			this.entityData.set(COLOR, DyedItemColor.getOrDefault(stack, DEFAULT_COLOR));
+		}
 	}
+
+	protected abstract Item baseItem();
 
 	@Override
 	protected void defineSynchedData(Builder builder) {
-		builder.define(ITEM, ItemStack.EMPTY);
+		builder.define(SHAPE_ID, BalloonShape.ROUND.id);
+		builder.define(COLOR, AbstractBalloon.DEFAULT_COLOR);
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag nbt) {
-		ItemStack stack = ItemStack.parse(this.registryAccess(), nbt.getCompound(ITEM_KEY))
-				.orElseGet(itemFallback::copy);
-		this.entityData.set(ITEM, stack);
-
+		BalloonShape.CODEC.decode(NbtOps.INSTANCE, nbt.get(SHAPE_KEY)).ifSuccess(pair -> this.entityData.set(SHAPE_ID, pair.getFirst().id));
+		this.entityData.set(COLOR, nbt.getInt(COLOR_KEY));
 		if (nbt.contains(ATTACHMENT_KEY, CompoundTag.TAG_COMPOUND)) {
 			CompoundTag tag = nbt.getCompound(ATTACHMENT_KEY);
 			this.attachment = BlockBalloonAttachment.fromNbt(tag, this.level());
@@ -87,7 +96,8 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag nbt) {
-		nbt.put(ITEM_KEY, this.entityData.get(ITEM).save(this.registryAccess()));
+		BalloonShape.CODEC.encodeStart(NbtOps.INSTANCE, this.shape()).ifSuccess(tag -> nbt.put(SHAPE_KEY, tag));
+		nbt.putInt(COLOR_KEY, this.color());
 		if (this.attachment instanceof BlockBalloonAttachment) {
 			nbt.put(ATTACHMENT_KEY, this.attachment.toNbt());
 		}
@@ -279,7 +289,11 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	@Nullable
 	@Override
 	public ItemStack getPickResult() {
-		return this.item().copy();
+		return Util.make(new ItemStack(this.baseItem()), stack -> stack.applyComponents(
+				DataComponentPatch.builder()
+						.set(DataComponents.DYED_COLOR, new DyedItemColor(this.color(), true)).
+						build()
+		));
 	}
 
 	@Override
@@ -287,13 +301,12 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 		return MovementEmission.EVENTS;
 	}
 
-	public ItemStack item() {
-		return this.entityData.get(ITEM);
+	public BalloonShape shape() {
+		return BalloonShape.BY_ID.apply(this.entityData.get(SHAPE_ID));
 	}
 
-	public BalloonShape shape() {
-		// TODO: this is bad
-		return ((BalloonItem) this.item().getItem()).shape;
+	public int color() {
+		return this.entityData.get(COLOR);
 	}
 
 	public boolean hasAttachment() {
