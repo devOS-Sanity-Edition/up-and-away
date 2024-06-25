@@ -20,7 +20,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public non-sealed class BlockBalloonAttachment extends BalloonAttachment {
 	public static final String POS_KEY = "pos";
 
-	private static final VoxelShape centerShape = Block.box(7, 7, 7, 9, 9, 9);
+	public static final VoxelShape CENTER_SHAPE = Block.box(7, 7, 7, 9, 9, 9);
 
 	private final Type type;
 	private final Level level;
@@ -49,8 +49,12 @@ public non-sealed class BlockBalloonAttachment extends BalloonAttachment {
 
 		this.state = state;
 		// based on SupportType
-		VoxelShape shape = state.getBlockSupportShape(this.level, this.blockPos);
-		return !Shapes.joinIsNotEmpty(shape, centerShape, BooleanOp.ONLY_SECOND);
+		VoxelShape shape = state.getCollisionShape(this.level, this.blockPos);
+		return !Shapes.joinIsNotEmpty(shape, this.getRequiredSupportShape(), BooleanOp.ONLY_SECOND);
+	}
+
+	protected VoxelShape getRequiredSupportShape() {
+		return CENTER_SHAPE;
 	}
 
 	@Override

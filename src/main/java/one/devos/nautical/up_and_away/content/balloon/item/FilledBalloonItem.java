@@ -4,6 +4,7 @@ import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.AbstractBalloon;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 
+import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BlockBalloonAttachment;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BlockFaceBalloonAttachment;
 
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.EntityBalloonAttachment;
@@ -19,8 +20,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class FilledBalloonItem extends BalloonItem implements UsableOnEntityItem {
@@ -35,13 +34,16 @@ public abstract class FilledBalloonItem extends BalloonItem implements UsableOnE
 		Level level = context.getLevel();
 		BlockPos pos = context.getClickedPos();
 		Direction face = context.getClickedFace();
-		BlockState state = level.getBlockState(pos);
-
-		if (!Block.isFaceFull(state.getShape(level, pos), face))
-			return InteractionResult.FAIL;
 
 		double stringLength = BalloonAttachment.getStringLength(level.random);
 		BalloonAttachment attachment = new BlockFaceBalloonAttachment(level, pos, face, stringLength);
+
+		if (!attachment.validate()) {
+			attachment = new BlockBalloonAttachment(level, pos, stringLength);
+			if (!attachment.validate()) {
+				return InteractionResult.FAIL;
+			}
+		}
 
 		ItemStack stack = context.getItemInHand();
 		Vec3 inFront = Vec3.atCenterOf(pos.relative(face));
