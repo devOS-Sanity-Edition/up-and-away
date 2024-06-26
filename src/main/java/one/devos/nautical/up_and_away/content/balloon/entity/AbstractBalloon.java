@@ -48,7 +48,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -66,6 +65,11 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	public static final TagKey<EntityType<?>> SHARP_ENTITIES = TagKey.create(Registries.ENTITY_TYPE, UpAndAway.id("pops_balloons"));
 
 	private BalloonAttachment attachment;
+
+	private int lerpSteps;
+	private double lerpX;
+	private double lerpY;
+	private double lerpZ;
 
 	protected AbstractBalloon(EntityType<?> entityType, Level level) {
 		super(entityType, level);
@@ -142,13 +146,47 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	}
 
 	@Override
+	public void lerpTo(double x, double y, double z, float yaw, float pitch, int interpolationSteps) {
+		this.lerpX = x;
+		this.lerpY = y;
+		this.lerpZ = z;
+		this.lerpSteps = interpolationSteps;
+	}
+
+	@Override
+	public double lerpTargetX() {
+		return this.lerpSteps > 0 ? this.lerpX : this.getX();
+	}
+
+	@Override
+	public double lerpTargetY() {
+		return this.lerpSteps > 0 ? this.lerpY : this.getY();
+	}
+
+	@Override
+	public double lerpTargetZ() {
+		return this.lerpSteps > 0 ? this.lerpZ : this.getZ();
+	}
+
+	@Override
 	public void tick() {
 		super.tick();
-		this.applyGravity();
-		this.applyAirDrag();
-		this.handleAttachment();
-		this.move(MoverType.SELF, this.getDeltaMovement());
-		this.checkSharpBlocks();
+
+		if (!this.level().isClientSide) {
+			this.lerpSteps = 0;
+			this.applyGravity();
+			this.applyAirDrag();
+			this.handleAttachment();
+			this.move(MoverType.SELF, this.getDeltaMovement());
+			this.checkSharpBlocks();
+		} else {
+			this.setDeltaMovement(Vec3.ZERO);
+		}
+
+		if (this.lerpSteps > 0) {
+			this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.getYRot(), this.getXRot());
+			--this.lerpSteps;
+		}
 	}
 
 	private void applyAirDrag() {
