@@ -90,7 +90,7 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	@Override
 	protected void defineSynchedData(Builder builder) {
 		builder.define(SHAPE_ID, DEFAULT_SHAPE.id);
-		builder.define(COLOR, AbstractBalloon.DEFAULT_COLOR);
+		builder.define(COLOR, DEFAULT_COLOR);
 	}
 
 	@Override
@@ -342,11 +342,12 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	@Nullable
 	@Override
 	public ItemStack getPickResult() {
-		return Util.make(new ItemStack(this.baseItem()), stack -> stack.applyComponents(
+		int color = this.color();
+		return Util.make(new ItemStack(this.baseItem()), color != DEFAULT_COLOR ? stack -> stack.applyComponents(
 				DataComponentPatch.builder()
-						.set(DataComponents.DYED_COLOR, new DyedItemColor(this.color(), true)).
+						.set(DataComponents.DYED_COLOR, new DyedItemColor(color, true)).
 						build()
-		));
+		) : stack -> {});
 	}
 
 	@Override
