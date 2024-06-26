@@ -13,11 +13,11 @@ import net.minecraft.world.entity.EntityDimensions;
 import org.jetbrains.annotations.NotNull;
 
 public enum BalloonShape implements StringRepresentable {
-	CUBE(EntityDimensions.fixed(14f / 16f, 1f)),
+	CUBE(EntityDimensions.fixed(15f / 16f, 1f)),
 	DOG(EntityDimensions.fixed(1f, 22.025f / 16f)),
 	HEART(EntityDimensions.fixed(21.25f / 16f, 18.275f / 16f)),
-	LONG(EntityDimensions.fixed(3f / 16f, 2f)),
-	ROUND(EntityDimensions.fixed(10f / 16f, 17f / 16f));
+	LONG(EntityDimensions.fixed(4f / 16f, 2f)),
+	ROUND(EntityDimensions.fixed(11f / 16f, 17f / 16f));
 
 	public static final Codec<BalloonShape> CODEC = StringRepresentable.fromEnum(BalloonShape::values);
 	public static final IntFunction<BalloonShape> BY_ID = ByIdMap.continuous(shape -> shape.id, values(), ByIdMap.OutOfBoundsStrategy.ZERO);
