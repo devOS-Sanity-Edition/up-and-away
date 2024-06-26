@@ -1,9 +1,9 @@
 package one.devos.nautical.up_and_away.content.balloon.item;
 
+import net.minecraft.core.particles.ItemParticleOption;
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import one.devos.nautical.up_and_away.content.UpAndAwaySounds;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
-import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -15,7 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
 public class DeflatedBalloonItem extends BalloonItem {
@@ -89,7 +88,7 @@ public class DeflatedBalloonItem extends BalloonItem {
 	public static void pop(Level level, Vec3 pos, SoundSource source) {
 		level.playSound(null, pos.x, pos.y, pos.z, UpAndAwaySounds.BALLOON_POP, source);
 		if (level instanceof ServerLevel serverLevel) {
-			BlockParticleOption particles = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.SLIME_BLOCK.defaultBlockState());
+			ItemParticleOption particles = new ItemParticleOption(ParticleTypes.ITEM, UpAndAwayItems.STRETCHY_SHEET.getDefaultInstance());
 			serverLevel.sendParticles(particles, pos.x, pos.y, pos.z, 10, 0, 0, 0, 1);
 		}
 	}
