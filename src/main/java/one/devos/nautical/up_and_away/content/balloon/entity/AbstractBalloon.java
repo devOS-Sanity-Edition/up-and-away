@@ -335,6 +335,11 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	}
 
 	@Override
+	public boolean canCollideWith(Entity other) {
+		return other instanceof AbstractBalloon;
+	}
+
+	@Override
 	public boolean isPickable() {
 		return true;
 	}
