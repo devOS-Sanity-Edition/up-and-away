@@ -63,7 +63,9 @@ public class BalloonCart extends Entity {
 	}
 
 	public void setInteractableState(BalloonCartInteractable interactable, boolean open) {
-		this.getEntityData().set(INTERACTABLE_STATES.get(interactable), open);
+		if (!this.level().isClientSide) {
+			this.getEntityData().set(INTERACTABLE_STATES.get(interactable), open);
+		}
 	}
 
 	public boolean getInteractableState(BalloonCartInteractable interactable) {
