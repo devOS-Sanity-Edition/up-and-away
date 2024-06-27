@@ -32,7 +32,7 @@ public class ItemInHandRendererMixin {
 									  CallbackInfo ci) {
 
 		if (UpAndAwayItems.DEFLATED.contains(stack.getItem())) {
-			BalloonItemRenderer.renderInflatingBalloon(matrices, buffers, stack, player, tickDelta, equipProgress, light);
+			BalloonItemRenderer.renderInflatingBalloon(matrices, buffers, stack, player, tickDelta, light);
 			ci.cancel();
 		}
 	}

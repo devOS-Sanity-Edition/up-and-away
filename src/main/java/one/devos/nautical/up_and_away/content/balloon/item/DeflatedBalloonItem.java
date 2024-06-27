@@ -19,8 +19,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class DeflatedBalloonItem extends BalloonItem {
 	public static final int TICKS_PER_PUFF = 40; // sound is 1.93s
+	public static final int PUFFS_TO_FILL = 3;
 	public static final int DEFLATE_THRESHOLD = TICKS_PER_PUFF;
-	public static final int POP_THRESHOLD = TICKS_PER_PUFF * 3;
+	public static final int POP_THRESHOLD = TICKS_PER_PUFF * PUFFS_TO_FILL;
 	public static final int INFLATE_THRESHOLD = POP_THRESHOLD - 10;
 
 	public DeflatedBalloonItem(BalloonShape shape, Properties properties) {

@@ -23,6 +23,9 @@ import net.minecraft.world.item.component.DyedItemColor;
 import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.AbstractBalloonModel;
 
 public class BalloonItemRenderer implements DynamicItemRenderer {
+	public static final float PROGRESS_PER_PUFF = 1f / DeflatedBalloonItem.PUFFS_TO_FILL;
+	public static final int TICKS_OF_INFLATING = 40;
+
 	public static final BalloonItemRenderer INSTANCE = new BalloonItemRenderer();
 
 	private static BalloonModels models;
@@ -54,13 +57,14 @@ public class BalloonItemRenderer implements DynamicItemRenderer {
 		model.renderToBuffer(matrices, vertices, light, overlay, color);
 	}
 
-	public static void renderInflatingBalloon(PoseStack matrices, MultiBufferSource buffers, ItemStack stack, Player player,
-											  float partialTicks, float equipProgress, int light) {
+	public static void renderInflatingBalloon(PoseStack matrices, MultiBufferSource buffers, ItemStack stack,
+											  Player player, float partialTicks, int light) {
 		matrices.pushPose();
 
 		int totalDuration = stack.getUseDuration(player);
 		float remaining = player.getUseItemRemainingTicks() - Mth.lerp(partialTicks, 0, 1);
-		float progress = 1 - (remaining / (float) totalDuration);
+		float ticks = totalDuration - remaining;
+		float progress = calculateProgress(ticks);
 
 		// transform to center
 		// based on applyItemArmTransform
@@ -70,5 +74,14 @@ public class BalloonItemRenderer implements DynamicItemRenderer {
 
 		BalloonItemRenderer.renderBalloonFromItem(matrices, progress, buffers, stack, light, OverlayTexture.NO_OVERLAY);
 		matrices.popPose();
+	}
+
+	public static float calculateProgress(float ticks) {
+		int fullPuffs = Mth.floor(ticks / DeflatedBalloonItem.TICKS_PER_PUFF);
+		float baseProgress = fullPuffs * PROGRESS_PER_PUFF;
+
+		float puffTicks = ticks - (fullPuffs * DeflatedBalloonItem.TICKS_PER_PUFF);
+		float puffProgress = Mth.sin((Mth.PI * puffTicks) / (TICKS_OF_INFLATING * 2)) / DeflatedBalloonItem.PUFFS_TO_FILL;
+		return baseProgress + puffProgress;
 	}
 }
