@@ -46,7 +46,8 @@ public class DeflatedBalloonItem extends BalloonItem {
 		}
 
 		int ticksUsedFor = this.getUseDuration(stack, entity) - remainingTicks;
-		if (ticksUsedFor % TICKS_PER_PUFF == 0) {
+		// not sure why but rarely this will be called 1 extra time at POP_THRESHOLD
+		if (ticksUsedFor < POP_THRESHOLD && ticksUsedFor % TICKS_PER_PUFF == 0) {
 			entity.playSound(UpAndAwaySounds.BALLOON_INFLATE);
 		}
 	}
