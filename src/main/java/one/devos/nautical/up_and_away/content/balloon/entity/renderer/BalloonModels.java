@@ -1,13 +1,12 @@
 package one.devos.nautical.up_and_away.content.balloon.entity.renderer;
 
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
-import one.devos.nautical.up_and_away.content.balloon.entity.AbstractBalloon;
+import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.AbstractBalloonModel;
 import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.DogBalloonModel;
 import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.CubeBalloonModel;
 import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.HeartBalloonModel;
 import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.LongBalloonModel;
 import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.RoundBalloonModel;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 
@@ -26,7 +25,7 @@ public class BalloonModels {
 		this.roundModel = new RoundBalloonModel(bakery.bake(RoundBalloonModel.LAYER_LOCATION));
 	}
 
-	public EntityModel<AbstractBalloon> choose(BalloonShape shape) {
+	public AbstractBalloonModel choose(BalloonShape shape) {
 		return switch (shape) {
 			case CUBE -> this.cubeModel;
 			case DOG -> this.dogModel;

@@ -7,12 +7,13 @@ import one.devos.nautical.up_and_away.content.balloon.entity.AbstractBalloon;
 
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 
+import one.devos.nautical.up_and_away.content.balloon.entity.renderer.model.AbstractBalloonModel;
+
 import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -42,7 +43,7 @@ public class BalloonRenderer extends EntityRenderer<AbstractBalloon> {
 		matrices.pushPose();
 		matrices.translate(0, 1.5, 0);
 		matrices.mulPose(Axis.XP.rotationDegrees(180));
-		EntityModel<AbstractBalloon> model = this.models.choose(balloon.shape());
+		AbstractBalloonModel model = this.models.choose(balloon.shape());
 		VertexConsumer vertices = buffers.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(balloon)));
 		model.renderToBuffer(matrices, vertices, light, OverlayTexture.NO_OVERLAY, balloon.color());
 		matrices.popPose();
@@ -51,8 +52,6 @@ public class BalloonRenderer extends EntityRenderer<AbstractBalloon> {
 		if (attachment != null) {
 			this.renderString(balloon, partialTicks, matrices, buffers, attachment.getPos(partialTicks));
 		}
-
-
 	}
 
 	@Override
