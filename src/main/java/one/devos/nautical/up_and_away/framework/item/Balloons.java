@@ -39,8 +39,8 @@ public record Balloons(Map<BalloonShape, BalloonItem> items) {
 		this.items.values().forEach(consumer);
 	}
 
-	public boolean contains(BalloonItem item) {
-		return this.items.containsValue(item);
+	public boolean contains(Item item) {
+		return item instanceof BalloonItem && this.items.containsValue(item);
 	}
 
 	public static Builder builder() {

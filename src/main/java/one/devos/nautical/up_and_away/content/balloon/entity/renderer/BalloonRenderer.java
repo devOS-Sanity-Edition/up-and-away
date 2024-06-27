@@ -1,6 +1,5 @@
 package one.devos.nautical.up_and_away.content.balloon.entity.renderer;
 
-
 import com.mojang.math.Axis;
 
 import one.devos.nautical.up_and_away.UpAndAway;
