@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.mojang.serialization.Codec;
 
+import net.minecraft.world.entity.player.Player;
 import one.devos.nautical.up_and_away.UpAndAway;
 import one.devos.nautical.up_and_away.content.balloon.entity.AbstractBalloon;
 import one.devos.nautical.up_and_away.framework.ext.EntityExt;
@@ -38,7 +39,7 @@ public non-sealed class EntityBalloonAttachment extends BalloonAttachment {
 	@Override
 	public Vec3 getPos(float partialTicks) {
 		float height = this.entity.getBbHeight();
-		return this.entity.getPosition(partialTicks).add(0, height / 2f, 0);
+		return this.entity.getPosition(partialTicks).add(0, this.entity instanceof Player ? height : height / 2f, 0);
 	}
 
 	@Override
