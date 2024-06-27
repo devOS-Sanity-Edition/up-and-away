@@ -18,8 +18,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class DeflatedBalloonItem extends BalloonItem {
-	public static final int INFLATE_THRESHOLD = 20 * 2;
-	public static final int POP_THRESHOLD = 20 * 4;
+	public static final int TICKS_PER_PUFF = 40; // sound is 1.93s
+	public static final int DEFLATE_THRESHOLD = TICKS_PER_PUFF;
+	public static final int INFLATE_THRESHOLD = TICKS_PER_PUFF * 2;
+	public static final int POP_THRESHOLD = TICKS_PER_PUFF * 3;
 
 	public DeflatedBalloonItem(BalloonShape shape, Properties properties) {
 		super(shape, properties);
@@ -43,7 +45,8 @@ public class DeflatedBalloonItem extends BalloonItem {
 			entity.hurt(level.damageSources().drown(), 2);
 		}
 
-		if (remainingTicks % 20 == 0) {
+		int ticksUsedFor = this.getUseDuration(stack, entity) - remainingTicks;
+		if (ticksUsedFor % TICKS_PER_PUFF == 0) {
 			entity.playSound(UpAndAwaySounds.BALLOON_INFLATE);
 		}
 	}
@@ -54,7 +57,10 @@ public class DeflatedBalloonItem extends BalloonItem {
 		int ticksUsedFor = this.getUseDuration(stack, entity) - remainingTicks;
 		if (ticksUsedFor < INFLATE_THRESHOLD) {
 			// not inflated enough
-			entity.playSound(UpAndAwaySounds.BALLOON_DEFLATE);
+			if (ticksUsedFor > DEFLATE_THRESHOLD) {
+				entity.playSound(UpAndAwaySounds.BALLOON_DEFLATE);
+			}
+
 			return;
 		}
 
