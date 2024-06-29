@@ -8,6 +8,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -116,6 +117,13 @@ public class BalloonCart extends Entity {
 		this.lerpZ = z;
 		this.lerpYRot = yaw;
 		this.lerpSteps = interpolationSteps;
+	}
+
+	@Override
+	public boolean hurt(DamageSource source, float amount) {
+		if (source.getDirectEntity() instanceof Player player && player.getAbilities().instabuild)
+			this.kill();
+		return super.hurt(source, amount);
 	}
 
 	@Override
