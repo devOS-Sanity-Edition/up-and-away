@@ -190,7 +190,7 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	}
 
 	private void applyAirDrag() {
-		this.setDeltaMovement(this.getDeltaMovement().scale(0.91));
+		this.setDeltaMovement(this.getDeltaMovement().multiply(0.91, 1, 0.91));
 	}
 
 	private void handleAttachment() {
