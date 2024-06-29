@@ -73,7 +73,7 @@ public class DeflatedBalloonItem extends BalloonItem {
 		if (entity instanceof Player player) {
 			ItemStack newStack = new ItemStack(inflated);
 			newStack.applyComponents(stack.getComponents());
-			ItemUtils.createFilledResult(stack, player, newStack, false);
+			entity.setItemInHand(entity.getUsedItemHand(), ItemUtils.createFilledResult(stack, player, newStack, false));
 		} else {
 			stack.consume(1, entity);
 		}
