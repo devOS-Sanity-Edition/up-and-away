@@ -1,5 +1,6 @@
 package one.devos.nautical.up_and_away.content.balloon.item;
 
+import net.minecraft.Util;
 import net.minecraft.core.particles.ItemParticleOption;
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 import one.devos.nautical.up_and_away.content.UpAndAwaySounds;
@@ -70,13 +71,14 @@ public class DeflatedBalloonItem extends BalloonItem {
 		if (inflated == null)
 			return;
 
-		if (entity instanceof Player player) {
-			ItemStack newStack = new ItemStack(inflated);
-			newStack.applyComponents(stack.getComponents());
-			entity.setItemInHand(entity.getUsedItemHand(), ItemUtils.createFilledResult(stack, player, newStack, false));
-		} else {
-			stack.consume(1, entity);
-		}
+		ItemStack newStack = new ItemStack(inflated);
+		newStack.applyComponents(stack.getComponents());
+
+		ItemStack remainder = entity instanceof Player player
+				? ItemUtils.createFilledResult(stack, player, newStack, false)
+				: Util.make(stack.copy(), s -> s.consume(1, entity));
+
+		entity.setItemInHand(entity.getUsedItemHand(), remainder);
 	}
 
 	@Override
