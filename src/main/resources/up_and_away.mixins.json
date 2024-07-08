@@ -13,6 +13,7 @@
     "ShulkerBulletAccessor"
   ],
   "client": [
+    "client.CapeLayerMixin",
     "client.HumanoidModelMixin",
     "client.ItemInHandLayerMixin",
     "client.ItemInHandRendererMixin"

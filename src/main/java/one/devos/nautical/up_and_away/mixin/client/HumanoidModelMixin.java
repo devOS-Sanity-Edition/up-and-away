@@ -10,6 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 
+import one.devos.nautical.up_and_away.framework.ext.HumanoidModelExt;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(HumanoidModel.class)
-public class HumanoidModelMixin {
+public class HumanoidModelMixin implements HumanoidModelExt {
 	@Shadow
 	@Final
 	public ModelPart rightArm;
@@ -33,6 +35,11 @@ public class HumanoidModelMixin {
 
 	@Unique
 	private boolean holdingBalloonCart;
+
+	@Override
+	public boolean up_and_away$holdingBalloonCart() {
+		return this.holdingBalloonCart;
+	}
 
 	@Inject(method = "setupAnim(Lnet/minecraft/world/entity/LivingEntity;FFFFF)V", at = @At("HEAD"))
 	private void balloonCartHoldingAnim(
