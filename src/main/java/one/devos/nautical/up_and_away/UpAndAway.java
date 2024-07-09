@@ -9,6 +9,7 @@ import one.devos.nautical.up_and_away.content.UpAndAwayEntities;
 
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
 
+import one.devos.nautical.up_and_away.content.UpAndAwayPackets;
 import one.devos.nautical.up_and_away.content.UpAndAwaySounds;
 import one.devos.nautical.up_and_away.content.misc.SparkBottle;
 import one.devos.nautical.up_and_away.framework.item.UsableOnEntityItem;
@@ -25,6 +26,7 @@ public class UpAndAway implements ModInitializer {
 		UpAndAwayItems.init();
 		UpAndAwayEntities.init();
 		UpAndAwaySounds.init();
+		UpAndAwayPackets.init();
 
 		UseEntityCallback.EVENT.register(UsableOnEntityItem::onUseEntity);
 		UseEntityCallback.EVENT.register(SparkBottle::onUseEntity);

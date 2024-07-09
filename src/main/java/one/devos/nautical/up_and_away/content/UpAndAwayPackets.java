@@ -29,4 +29,7 @@ public class UpAndAwayPackets {
 
 		return type;
 	}
+
+	public static void init() {
+	}
 }
