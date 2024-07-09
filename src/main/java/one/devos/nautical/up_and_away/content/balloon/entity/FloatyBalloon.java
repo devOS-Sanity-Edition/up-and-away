@@ -39,7 +39,7 @@ public class FloatyBalloon extends AirBalloon {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.getY() >= (this.level().getHeight() + MAX_HEIGHT_OFFSET))
+		if (!this.isFixed() && this.getY() >= (this.level().getHeight() + MAX_HEIGHT_OFFSET))
 			this.pop();
 	}
 

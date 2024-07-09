@@ -1,7 +1,9 @@
 package one.devos.nautical.up_and_away.framework.util;
 
 import java.util.Objects;
+import java.util.Optional;
 
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.nbt.CompoundTag;
@@ -19,6 +21,11 @@ public class Utils {
 	public static <T> T simpleDecode(Codec<T> codec, CompoundTag nbt, String key) {
 		Tag tag = Objects.requireNonNull(nbt.get(key), key);
 		return codec.decode(NbtOps.INSTANCE, tag).getOrThrow().getFirst();
+	}
+
+	public static <T> Optional<T> simpleDecodeSafe(Codec<T> codec, CompoundTag nbt, String key) {
+		Tag tag = nbt.get(key);
+		return tag == null ? Optional.empty() : codec.decode(NbtOps.INSTANCE, tag).result().map(Pair::getFirst);
 	}
 
 	public static double nextDouble(RandomSource random, double min, double maxExclusive) {

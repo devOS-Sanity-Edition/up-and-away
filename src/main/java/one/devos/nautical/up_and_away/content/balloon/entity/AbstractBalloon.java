@@ -1,13 +1,19 @@
 package one.devos.nautical.up_and_away.content.balloon.entity;
 
+import java.util.Locale;
+import java.util.function.IntFunction;
+
+import com.mojang.serialization.Codec;
+
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.NbtOps;
+import net.minecraft.util.ByIdMap;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.component.DyedItemColor;
@@ -26,6 +32,8 @@ import one.devos.nautical.up_and_away.content.balloon.item.DeflatedBalloonItem;
 import one.devos.nautical.up_and_away.framework.entity.ExtraSpawnPacketsEntity;
 
 import one.devos.nautical.up_and_away.framework.entity.SometimesSerializableEntity;
+
+import one.devos.nautical.up_and_away.framework.util.Utils;
 
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
@@ -53,12 +61,14 @@ import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacketsEntity, SometimesSerializableEntity {
 	public static final EntityDataAccessor<Byte> SHAPE_ID = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.BYTE);
+	public static final EntityDataAccessor<Byte> MODE_ID = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.BYTE);
 	public static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.INT);
 	public static final BalloonShape DEFAULT_SHAPE = BalloonShape.ROUND;
 	public static final int DEFAULT_COLOR = 0xFFFFFFFF;
 	public static final String SHAPE_KEY = "shape";
 	public static final String COLOR_KEY = "color";
 	public static final String ATTACHMENT_KEY = "attachment";
+	public static final String MODE_KEY = "mode";
 
 	public static final TagKey<Block> SHARP_BLOCKS = TagKey.create(Registries.BLOCK, UpAndAway.id("pops_balloons"));
 	public static final TagKey<Item> SHARP_ITEMS = TagKey.create(Registries.ITEM, UpAndAway.id("pops_balloons"));
@@ -90,20 +100,25 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	@Override
 	protected void defineSynchedData(Builder builder) {
 		builder.define(SHAPE_ID, DEFAULT_SHAPE.id);
+		builder.define(MODE_ID, Mode.NORMAL.id);
 		builder.define(COLOR, DEFAULT_COLOR);
 	}
 
 	@Override
 	public void onSyncedDataUpdated(EntityDataAccessor<?> data) {
 		super.onSyncedDataUpdated(data);
-		if (SHAPE_ID.equals(data))
+		if (SHAPE_ID.equals(data)) {
 			this.refreshDimensions();
+		}
 	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag nbt) {
-		BalloonShape.CODEC.decode(NbtOps.INSTANCE, nbt.get(SHAPE_KEY)).ifSuccess(pair -> this.entityData.set(SHAPE_ID, pair.getFirst().id));
+		Utils.simpleDecodeSafe(BalloonShape.CODEC, nbt, SHAPE_KEY).ifPresent(shape -> this.entityData.set(SHAPE_ID, shape.id));
+		Utils.simpleDecodeSafe(Mode.CODEC, nbt, MODE_KEY).ifPresent(mode -> this.entityData.set(MODE_ID, mode.id));
+
 		this.entityData.set(COLOR, FastColor.ARGB32.opaque(nbt.getInt(COLOR_KEY)));
+
 		if (nbt.contains(ATTACHMENT_KEY, CompoundTag.TAG_COMPOUND)) {
 			CompoundTag tag = nbt.getCompound(ATTACHMENT_KEY);
 			this.attachment = BlockBalloonAttachment.fromNbt(tag, this.level());
@@ -112,8 +127,14 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	@Override
 	protected void addAdditionalSaveData(CompoundTag nbt) {
-		BalloonShape.CODEC.encodeStart(NbtOps.INSTANCE, this.shape()).ifSuccess(tag -> nbt.put(SHAPE_KEY, tag));
+		nbt.putString(SHAPE_KEY, this.shape().name);
+
+		if (this.mode() != Mode.NORMAL) {
+			nbt.putString(MODE_KEY, this.mode().name);
+		}
+
 		nbt.putInt(COLOR_KEY, this.color());
+
 		if (this.attachment instanceof BlockBalloonAttachment) {
 			nbt.put(ATTACHMENT_KEY, this.attachment.toNbt());
 		}
@@ -170,6 +191,9 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	@Override
 	public void tick() {
+		if (this.isFixed())
+			return;
+
 		super.tick();
 
 		if (!this.level().isClientSide) {
@@ -221,13 +245,15 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	@Override
 	public boolean isInvulnerableTo(DamageSource source) {
-		if (super.isInvulnerableTo(source))
+		if (this.isFixed() || super.isInvulnerableTo(source))
 			return true;
 
 		if (source.getDirectEntity() instanceof Player player) {
 			// take no damage from adventure mode players
-			if (!player.mayBuild())
-				return true;
+			if (!player.mayBuild()) {
+				// unless explicitly made vulnerable
+				return this.mode() != Mode.VULNERABLE;
+			}
 
 			// invulnerable unless held item is tagged as sharp
 			ItemStack held = player.getMainHandItem();
@@ -254,7 +280,7 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 			return true;
 		}
 
-		if (source.is(DamageTypeTags.NO_KNOCKBACK) || this.level().isClientSide)
+		if (this.isFixed() || source.is(DamageTypeTags.NO_KNOCKBACK) || this.level().isClientSide)
 			return true;
 
 		this.markHurt();
@@ -331,7 +357,7 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	@Override
 	public boolean isPushable() {
-		return true;
+		return !this.isFixed();
 	}
 
 	@Override
@@ -369,6 +395,10 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 		return BalloonShape.BY_ID.apply(this.entityData.get(SHAPE_ID));
 	}
 
+	public Mode mode() {
+		return Mode.BY_ID.apply(this.entityData.get(MODE_ID));
+	}
+
 	public int color() {
 		return this.entityData.get(COLOR);
 	}
@@ -395,6 +425,27 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 		this.attachment = attachment;
 		if (attachment != null) {
 			attachment.onSet(this);
+		}
+	}
+
+	public boolean isFixed() {
+		return this.mode() == Mode.FIXED;
+	}
+
+	public enum Mode implements StringRepresentable {
+		NORMAL,
+		FIXED,
+		VULNERABLE;
+
+		public final String name = this.name().toLowerCase(Locale.ROOT);
+		public final byte id = (byte) this.ordinal();
+
+		public static final IntFunction<Mode> BY_ID = ByIdMap.continuous(Enum::ordinal, values(), ByIdMap.OutOfBoundsStrategy.ZERO);
+		public static final Codec<Mode> CODEC = StringRepresentable.fromEnum(Mode::values);
+
+		@Override
+		public String getSerializedName() {
+			return this.name;
 		}
 	}
 }
