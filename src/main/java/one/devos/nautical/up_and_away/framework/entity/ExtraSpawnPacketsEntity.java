@@ -2,7 +2,9 @@ package one.devos.nautical.up_and_away.framework.entity;
 
 import java.util.function.Consumer;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.common.ClientCommonPacketListener;
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -20,6 +22,7 @@ public interface ExtraSpawnPacketsEntity {
 		}
 
 		public void add(CustomPacketPayload payload) {
+			Packet<ClientCommonPacketListener> packet = ServerPlayNetworking.createS2CPacket(payload);
 			this.add(new ClientboundCustomPayloadPacket(payload));
 		}
 	}

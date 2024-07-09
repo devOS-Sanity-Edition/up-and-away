@@ -138,7 +138,6 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	@Override
 	public void addSpawnPackets(PacketConsumer consumer) {
-		UpAndAway.LOGGER.info("packet query, attachment is {}", this.attachment);
 		if (this.attachment instanceof BlockBalloonAttachment block) {
 			consumer.add(new BlockBalloonAttachmentPacket(this, block));
 		} else if (this.attachment instanceof EntityBalloonAttachment entity) {

@@ -39,7 +39,6 @@ public record BlockBalloonAttachmentPacket(int balloonId, CompoundTag nbt) imple
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(Context ctx) {
-		logger.info("BlockBalloonAttachmentPacket");
 		ClientLevel level = Objects.requireNonNull(ctx.client().level);
 		Entity entity = level.getEntity(this.balloonId);
 		if (!(entity instanceof AbstractBalloon balloon)) {
