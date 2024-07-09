@@ -14,6 +14,7 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
@@ -65,8 +66,11 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	public static final EntityDataAccessor<Byte> SHAPE_ID = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.BYTE);
 	public static final EntityDataAccessor<Byte> MODE_ID = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.BYTE);
 	public static final EntityDataAccessor<Integer> COLOR = SynchedEntityData.defineId(AbstractBalloon.class, EntityDataSerializers.INT);
+
 	public static final BalloonShape DEFAULT_SHAPE = BalloonShape.ROUND;
 	public static final int DEFAULT_COLOR = 0xFFFFFFFF;
+	public static final int[] RANDOM_COLORS = { 0xFFe68a25, 0xFFe14d2f, 0xFF4cc2e0, 0xFF52e5ae, 0xFFebbd33, 0xFFf03199 };
+
 	public static final String SHAPE_KEY = "shape";
 	public static final String COLOR_KEY = "color";
 	public static final String ATTACHMENT_KEY = "attachment";
@@ -91,14 +95,17 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	protected AbstractBalloon(EntityType<?> type, Level level, ItemStack stack, @Nullable BalloonAttachment attachment) {
 		this(type, level);
 		this.setAttachment(attachment);
+
 		if (stack.getItem() instanceof BalloonItem item) {
 			this.entityData.set(SHAPE_ID, item.shape.id);
-			this.entityData.set(COLOR, DyedItemColor.getOrDefault(stack, DEFAULT_COLOR));
 		}
+
 		if (stack.has(UpAndAwayComponents.BALLOON_MODE)) {
 			Mode mode = Objects.requireNonNull(stack.get(UpAndAwayComponents.BALLOON_MODE));
 			this.entityData.set(MODE_ID, mode.id);
 		}
+
+		this.entityData.set(COLOR, getColor(stack, this.random));
 	}
 
 	protected abstract Item baseItem();
@@ -436,6 +443,14 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 
 	public boolean isFixed() {
 		return this.mode() == Mode.FIXED;
+	}
+
+	private static int getColor(ItemStack stack, RandomSource random) {
+		if (stack.getOrDefault(UpAndAwayComponents.RANDOM_COLOR, false)) {
+			return Util.getRandom(RANDOM_COLORS, random);
+		} else {
+			return DyedItemColor.getOrDefault(stack, DEFAULT_COLOR);
+		}
 	}
 
 	public enum Mode implements StringRepresentable {
