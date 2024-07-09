@@ -52,6 +52,11 @@ public abstract class FilledBalloonItem extends BalloonItem implements UsableOnE
 
 	@Override
 	public InteractionResult useOnEntity(ItemStack stack, Entity entity, @Nullable Player user) {
+		if (user != null && !user.mayBuild()) {
+			// disallow in adventure
+			return InteractionResult.PASS;
+		}
+
 		double stringLength = BalloonAttachment.getStringLength(entity.getRandom());
 		BalloonAttachment attachment = new EntityBalloonAttachment(entity, stringLength);
 		return this.spawnAttachedBalloon(entity.level(), stack, user, attachment, entity.getEyePosition());
