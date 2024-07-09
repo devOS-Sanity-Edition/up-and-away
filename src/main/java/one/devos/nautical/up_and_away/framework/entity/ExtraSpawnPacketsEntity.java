@@ -22,7 +22,6 @@ public interface ExtraSpawnPacketsEntity {
 		}
 
 		public void add(CustomPacketPayload payload) {
-			Packet<ClientCommonPacketListener> packet = ServerPlayNetworking.createS2CPacket(payload);
 			this.add(new ClientboundCustomPayloadPacket(payload));
 		}
 	}
