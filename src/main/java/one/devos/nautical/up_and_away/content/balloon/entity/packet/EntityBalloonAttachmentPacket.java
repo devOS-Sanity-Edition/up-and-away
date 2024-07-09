@@ -38,6 +38,7 @@ public record EntityBalloonAttachmentPacket(int balloonId, int attachedEntityId,
 	@Override
 	@Environment(EnvType.CLIENT)
 	public void handle(Context ctx) {
+		logger.info("EntityBalloonAttachmentPacket");
 		ClientLevel level = Objects.requireNonNull(ctx.client().level);
 		Entity entity = level.getEntity(this.balloonId);
 		if (!(entity instanceof AbstractBalloon balloon)) {
