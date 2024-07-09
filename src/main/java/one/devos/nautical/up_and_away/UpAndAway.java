@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.ResourceLocation;
 
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import one.devos.nautical.up_and_away.content.UpAndAwayComponents;
 import one.devos.nautical.up_and_away.content.UpAndAwayEntities;
 
 import one.devos.nautical.up_and_away.content.UpAndAwayItems;
@@ -27,6 +28,7 @@ public class UpAndAway implements ModInitializer {
 		UpAndAwayEntities.init();
 		UpAndAwaySounds.init();
 		UpAndAwayPackets.init();
+		UpAndAwayComponents.init();
 
 		UseEntityCallback.EVENT.register(UsableOnEntityItem::onUseEntity);
 		UseEntityCallback.EVENT.register(SparkBottle::onUseEntity);

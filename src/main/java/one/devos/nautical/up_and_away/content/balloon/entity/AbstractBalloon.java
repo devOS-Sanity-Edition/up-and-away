@@ -1,6 +1,7 @@
 package one.devos.nautical.up_and_away.content.balloon.entity;
 
 import java.util.Locale;
+import java.util.Objects;
 import java.util.function.IntFunction;
 
 import com.mojang.serialization.Codec;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.component.DyedItemColor;
 import one.devos.nautical.up_and_away.UpAndAway;
+import one.devos.nautical.up_and_away.content.UpAndAwayComponents;
 import one.devos.nautical.up_and_away.content.balloon.BalloonShape;
 import one.devos.nautical.up_and_away.content.balloon.entity.attachment.BalloonAttachment;
 
@@ -92,6 +94,10 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 		if (stack.getItem() instanceof BalloonItem item) {
 			this.entityData.set(SHAPE_ID, item.shape.id);
 			this.entityData.set(COLOR, DyedItemColor.getOrDefault(stack, DEFAULT_COLOR));
+		}
+		if (stack.has(UpAndAwayComponents.BALLOON_MODE)) {
+			Mode mode = Objects.requireNonNull(stack.get(UpAndAwayComponents.BALLOON_MODE));
+			this.entityData.set(MODE_ID, mode.id);
 		}
 	}
 
