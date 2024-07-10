@@ -35,6 +35,13 @@ public class SparkBottle extends Item {
 
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+		ItemStack stack = user.getItemInHand(hand);
+
+		if (!user.mayBuild()) {
+			// do not place in adventure
+			return InteractionResultHolder.pass(stack);
+		}
+
 		if (!world.isClientSide) {
 			user.awardStat(Stats.ITEM_USED.get(this));
 			Vec3 start = user.getEyePosition();
@@ -54,7 +61,6 @@ public class SparkBottle extends Item {
 
 		user.playSound(SoundEvents.SHULKER_BULLET_HIT);
 
-		ItemStack stack = user.getItemInHand(hand);
 		return InteractionResultHolder.sidedSuccess(
 				!user.hasInfiniteMaterials() ?
 						ItemUtils.createFilledResult(user.getItemInHand(hand), user, Items.GLASS_BOTTLE.getDefaultInstance()) : stack,
