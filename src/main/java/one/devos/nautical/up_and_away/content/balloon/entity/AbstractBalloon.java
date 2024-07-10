@@ -278,7 +278,7 @@ public abstract class AbstractBalloon extends Entity implements ExtraSpawnPacket
 	}
 
 	private boolean isInvulnerableTo(DamageSource source, float amount) {
-		if (amount <= 0) {
+		if (amount <= 0 && !this.isFixed()) {
 			// 0 damage - invulnerable unless specially tagged
 			Entity entity = source.getDirectEntity();
 			return entity == null || !entity.getType().is(SHARP_ENTITIES);
